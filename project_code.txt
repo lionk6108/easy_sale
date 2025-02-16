@@ -1,0 +1,4861 @@
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\App.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\App.js"  
+ echo.
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\App.js
+------------------------
+import React from "react";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Outlet,
+  createRoutesFromElements,
+  Route,
+  ScrollRestoration,
+} from "react-router-dom";
+import { ThemeProvider, LanguageProvider, LanguageContext } from "./components/home/Header/Header";
+import Footer from "./components/home/Footer/Footer";
+import Header from "./components/home/Header/Header";
+import HeaderBottom from "./components/home/Header/HeaderBottom";
+import SpecialCase from "./components/SpecialCase/SpecialCase";
+import About from "./pages/About/About";
+import SignIn from "./pages/Account/SignIn";
+import SignUp from "./pages/Account/SignUp";
+import Cart from "./pages/Cart/Cart";
+import Wishlist from "./pages/Wishlist"; // Add this import
+import Contact from "./pages/Contact/Contact";
+import Home from "./pages/Home/Home";
+import Offer from "./pages/Offer/Offer";
+import Payment from "./pages/payment/Payment";
+import ProductDetails from "./pages/ProductDetails/ProductDetails";
+import Shop from "./pages/Shop/Shop";
+import ChatPage from './pages/ChatPage';
+import ErrorBoundary from './components/ErrorBoundary';
+
+const Layout = () => {
+  return (
+    <div className="dark:bg-gray-900 dark:text-white transition-colors duration-300">
+      <Header />
+      <HeaderBottom />
+      <SpecialCase />
+      <ScrollRestoration />
+      <Outlet />
+      <Footer />
+    </div>
+  );
+};
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route>
+      <Route path="/" element={<Layout />} errorElement={<ErrorBoundary />}>
+        <Route index element={<Home />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/offer" element={<Offer />} />
+        <Route path="/product/:_id" element={<ProductDetails />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/wishlist" element={<Wishlist />} /> {/* Add this route */}
+        <Route path="/paymentgateway" element={<Payment />} />
+        <Route path="/chat/:id" element={<ChatPage />} />
+      </Route>
+      <Route path="/signup" element={<SignUp />} />
+      <Route path="/signin" element={<SignIn />} />
+    </Route>
+  )
+);
+
+const AppContent = () => {
+  const { language } = React.useContext(LanguageContext);
+  return (
+    <div className="font-bodyFont" dir={language === 'ar' ? 'rtl' : 'ltr'}>
+      <RouterProvider router={router} />
+    </div>
+  );
+};
+
+function App() {
+  return (
+    <ThemeProvider>
+      <LanguageProvider>
+        <AppContent />
+      </LanguageProvider>
+    </ThemeProvider>
+  );
+}
+
+export default App;
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\index.css  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\index.css"  
+ echo.
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\index.css
+------------------------
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .hoverEffect {
+    @apply duration-300 cursor-pointer;
+  }
+  .headerSedenavLi {
+    @apply hover:underline underline-offset-2 cursor-pointer text-gray-300 hover:text-white;
+  }
+}
+
+/* ============= NavLink active Start here ============== */
+nav .active li {
+  color: black;
+  font-weight: 600;
+  text-decoration: 1px underline black;
+}
+
+@media screen and (max-width: 665px) {
+  nav .active li {
+    color: white;
+    font-weight: 600;
+    text-decoration: 1px underline white;
+  }
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+/* ============= NavLink active End here ================ */
+
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\index.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\index.js"  
+ echo.
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\index.js
+------------------------
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { PersistGate } from "redux-persist/integration/react";
+import "slick-carousel/slick/slick.css";
+import { Provider } from "react-redux";
+import { store, persistor } from "./redux/store";
+import "./index.css";
+import App from "./App";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <App />
+    </PersistGate>
+  </Provider>
+);
+
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\assets\images\emptyCart.jpg  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\assets\images\emptyCart.jpg"  
+ echo.. 
+) 
+------------------------
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const ErrorBoundary = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
+      <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full text-center">
+        <h1 className="text-2xl font-bold text-gray-800 mb-4">
+          Oops! Something went wrong
+        </h1>
+        <p className="text-gray-600 mb-6">
+          We apologize for the inconvenience. Please try again later.
+        </p>
+        <div className="space-x-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors"
+          >
+            Go Back
+          </button>
+          <button
+            onClick={() => navigate('/')}
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
+          >
+            Go Home
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ErrorBoundary;.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\Banner\Banner.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\Banner\Banner.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\Banner\Banner.js
+------------------------
+import React from "react";
+import { Link } from "react-router-dom";
+import welcomeasy from "../../assets/images/welcomeasy.png"; // Assurez-vous que le chemin et l'extension sont corrects
+import Image from "../designLayouts/Image"; // Assurez-vous que le composant Image prend correctement l'image
+
+const Banner = () => {
+  return (
+    <div className="w-full h-full bg-white relative"> {/* Définir une hauteur ou 'h-full' pour occuper toute la hauteur */}
+      <Link to="/offer">
+        <div className="w-full h-full">
+          {/* Ajouter w-full et h-full pour que l'image prenne toute la largeur et hauteur du parent */}
+          <Image className="w-full h-full object-cover" imgSrc={welcomeasy} />
+        </div>
+      </Link>
+    </div>
+  );
+};
+
+export default Banner;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\Banner\BannerBottom.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\Banner\BannerBottom.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\Banner\BannerBottom.js
+------------------------
+import React, { useContext } from "react";
+import { LanguageContext } from "../../components/home/Header/Header"; // Correct import of ThemeContext
+import { ThemeContext } from "../../components/home/Header/Header"; // Import ThemeContext
+
+const EcommerceSteps = () => {
+  const { language } = useContext(LanguageContext);  // Access current language
+  const { theme } = useContext(ThemeContext); // Access current theme (light or dark)
+
+  // Define translations for each step based on language
+  const steps = [
+    {
+      number: "1",
+      title: {
+        en: "Find the right deal",
+        fr: "Trouvez la bonne offre",
+        ar: "ابحث عن الصفقة الصحيحة"
+      },
+      description: {
+        en: "To see offers near you, select your city or the category that interests you.",
+        fr: "Pour voir les offres près de chez vous, sélectionnez votre ville ou la catégorie qui vous intéresse.",
+        ar: "لرؤية العروض بالقرب منك، اختر مدينتك أو الفئة التي تهمك."
+      },
+      icon: (
+        <svg className="w-12 h-12 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      ),
+    },
+    {
+      number: "2",
+      title: {
+        en: "Contact seller",
+        fr: "Contacter le vendeur",
+        ar: "اتصل بالبائع"
+      },
+      description: {
+        en: "When you have found the item you are looking for, contact the seller.",
+        fr: "Lorsque vous avez trouvé l'article que vous recherchez, contactez le vendeur.",
+        ar: "عندما تجد العنصر الذي تبحث عنه، اتصل بالبائع."
+      },
+      icon: (
+        <svg className="w-12 h-12 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+        </svg>
+      ),
+    },
+    {
+      number: "3",
+      title: {
+        en: "Get the deal",
+        fr: "Obtenez l'offre",
+        ar: "احصل على الصفقة"
+      },
+      description: {
+        en: "Meet the seller and make the good deal.",
+        fr: "Rencontrez le vendeur et faites la bonne affaire.",
+        ar: "التقِ بالبائع وأبرم الصفقة الجيدة."
+      },
+      icon: (
+        <svg className="w-12 h-12 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+      ),
+    },
+  ];
+
+  return (
+    <div className={`py-16 ${theme === 'light' ? 'bg-white' : 'bg-gray-900'}`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <h2 className={`text-3xl font-extrabold ${theme === 'light' ? 'text-gray-900' : 'text-white'} sm:text-4xl`}>
+            {language === "en" ? "How it works" : language === "fr" ? "Comment ça marche" : "كيف يعمل"}
+          </h2>
+          <p className={`mt-4 text-xl ${theme === 'light' ? 'text-gray-600' : 'text-gray-300'}`}>
+            {language === "en" ? "Follow these simple steps to find and get the best deals" : language === "fr" ? "Suivez ces étapes simples pour trouver et obtenir les meilleures offres" : "اتبع هذه الخطوات البسيطة للعثور على أفضل العروض والحصول عليها"}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+          {steps.map((step, index) => (
+            <div
+              key={index}
+              className={`relative group ${theme === 'light' ? 'bg-white' : 'bg-gray-800'} p-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1`}
+            >
+              <div className="absolute -top-4 -left-4 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                {step.number}
+              </div>
+
+              <div className="flex flex-col items-center">
+                <div className={`mb-4 p-3 bg-blue-50 rounded-full group-hover:bg-blue-100 transition-colors duration-300 ${theme === 'light' ? 'bg-blue-50' : 'bg-blue-600'}`}>
+                  {step.icon}
+                </div>
+
+                <h3 className={`text-xl font-bold ${theme === 'light' ? 'text-gray-900' : 'text-white'} mb-2`}>
+                  {step.title[language]}  {/* Render title based on the selected language */}
+                </h3>
+
+                <p className={`text-gray-600 text-center ${theme === 'light' ? 'text-gray-600' : 'text-gray-300'}`}>
+                  {step.description[language]}  {/* Render description based on the selected language */}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default EcommerceSteps;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\designLayouts\Flex.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\designLayouts\Flex.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\designLayouts\Flex.js
+------------------------
+import React from "react";
+
+const Flex = ({ children, className }) => {
+  return <div className={className}>{children}</div>;
+};
+
+export default Flex;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\designLayouts\Image.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\designLayouts\Image.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\designLayouts\Image.js
+------------------------
+import React from "react";
+
+const Image = ({ imgSrc, className }) => {
+  return <img className={className} src={imgSrc} alt={imgSrc} />;
+};
+
+export default Image;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\designLayouts\List.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\designLayouts\List.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\designLayouts\List.js
+------------------------
+import React from "react";
+
+const List = ({ children, className }) => {
+  return <ul className={className}>{children}</ul>;
+};
+
+export default List;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\designLayouts\ListItem.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\designLayouts\ListItem.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\designLayouts\ListItem.js
+------------------------
+import React from "react";
+
+const ListItem = ({ itemName, className }) => {
+  return <li className={className}>{itemName}</li>;
+};
+
+export default ListItem;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\designLayouts\buttons\ShopNow.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\designLayouts\buttons\ShopNow.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\designLayouts\buttons\ShopNow.js
+------------------------
+import React from "react";
+
+const ShopNow = () => {
+  return (
+    <button className="bg-primeColor text-white text-lg font-bodyFont w-[185px] h-[50px] hover:bg-black duration-300 font-bold">
+      Shop Now
+    </button>
+  );
+};
+
+export default ShopNow;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\home\BestSellers\BestSellers.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\home\BestSellers\BestSellers.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\home\BestSellers\BestSellers.js
+------------------------
+import React from "react";
+import Heading from "../Products/Heading";
+import Product from "../Products/Product";
+import {
+  bestSellerOne,
+  bestSellerTwo,
+  bestSellerThree,
+  bestSellerFour,
+} from "../../../assets/images/index";
+
+const BestSellers = () => {
+  return (
+    <div className="w-full pb-20">
+      <Heading heading="Our Bestsellers" />
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 lgl:grid-cols-3 xl:grid-cols-4 gap-10">
+        <Product
+          _id="1011"
+          img={bestSellerOne}
+          productName="Flower Base"
+          price="35.00"
+          color="Blank and White"
+          badge={true}
+          des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
+        />
+        <Product
+          _id="1012"
+          img={bestSellerTwo}
+          productName="New Backpack"
+          price="180.00"
+          color="Gray"
+          badge={false}
+          des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
+        />
+        <Product
+          _id="1013"
+          img={bestSellerThree}
+          productName="Household materials"
+          price="25.00"
+          color="Mixed"
+          badge={true}
+          des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
+        />
+        <Product
+          _id="1014"
+          img={bestSellerFour}
+          productName="Travel Bag"
+          price="220.00"
+          color="Black"
+          badge={false}
+          des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
+        />
+      </div>
+    </div>
+  );
+};
+
+export default BestSellers;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\home\Footer\Footer.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\home\Footer\Footer.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\home\Footer\Footer.js
+------------------------
+import React, { useState, useContext } from "react";
+import { motion } from "framer-motion";
+import { FaFacebook, FaYoutube, FaLinkedin, FaGithub } from "react-icons/fa";
+import FooterListTitle from "./FooterListTitle";
+import paymentCard  from "../../../assets/images/footer1.png"; // Vérifiez le chemin d'importation des images
+import Image from "../../designLayouts/Image"; // Assurez-vous que ce composant existe et fonctionne
+import { LanguageContext, ThemeContext } from "../Header/Header"; // Ajustez le chemin en fonction de votre structure de fichiers
+
+const Footer = () => {
+  const [emailInfo, setEmailInfo] = useState("");
+  const [subscription, setSubscription] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+  const { language } = useContext(LanguageContext); // Accédez au contexte de la langue
+  const { isDarkMode } = useContext(ThemeContext); // Accédez à l'état du mode sombre
+
+  // Traductions spécifiques à la langue pour le Footer
+  const footerTranslations = {
+    subscribeTitle: {
+      en: "Subscribe",
+      fr: "Abonnez-vous ",
+      ar: "اشترك",
+    },
+    subscribeMessage: {
+      en: "Stay updated with the latest news and offers.",
+      fr: "Restez informé des dernières nouvelles et offres.",
+      ar: "ابق على اطلاع بأحدث الأخبار والعروض.",
+    },
+    successMessage: {
+      en: "Subscribed Successfully!",
+      fr: "Abonnement réussi!",
+      ar: "تم الاشتراك بنجاح!",
+    },
+    errorMessage: {
+      en: "Please provide an Email!",
+      fr: "Veuillez fournir un e-mail!",
+      ar: "الرجاء تقديم بريد إلكتروني!",
+    },
+    invalidEmail: {
+      en: "Please give a valid Email!",
+      fr: "Veuillez fournir un email valide!",
+      ar: "الرجاء إدخال بريد إلكتروني صالح!",
+    },
+    moreAboutTitle: {
+      en: "More about Orebi Shop",
+      fr: "Plus sur Orebi Shop",
+      ar: "المزيد عن أوربي شوب",
+    },
+    shopTitle: {
+      en: "Shop",
+      fr: "Boutique",
+      ar: "المتجر",
+    },
+    accountTitle: {
+      en: "Your account",
+      fr: "Votre compte",
+      ar: "حسابك",
+    },
+    // Ajout de la traduction pour le placeholder et le profil, l'adresse, etc.
+    profileLink: {
+      en: "Profile",
+      fr: "Profil",
+      ar: "الملف الشخصي",
+    },
+    ordersLink: {
+      en: "Orders",
+      fr: "Commandes",
+      ar: "الطلبات",
+    },
+    addressesLink: {
+      en: "Addresses",
+      fr: "Adresses",
+      ar: "العناوين",
+    },
+    accountDetailsLink: {
+      en: "Account Details",
+      fr: "Détails du compte",
+      ar: "تفاصيل الحساب",
+    },
+    paymentOptionsLink: {
+      en: "Payment Options",
+      fr: "Options de paiement",
+      ar: "خيارات الدفع",
+    },
+    emailPlaceholder: {
+      en: "Insert your email ...*",
+      fr: "Insérez votre e-mail ...*",
+      ar: "أدخل بريدك الإلكتروني ...*",
+    },
+    shopCategories: {
+      en: {
+        accessories: "Accessories",
+        clothes: "Clothes",
+        electronics: "Electronics",
+        homeAppliances: "Home appliances",
+        newArrivals: "New Arrivals",
+      },
+      fr: {
+        accessories: "Accessoires",
+        clothes: "Vêtements",
+        electronics: "Électronique",
+        homeAppliances: "Appareils ménagers",
+        newArrivals: "Nouveautés",
+      },
+      ar: {
+        accessories: "إكسسوارات",
+        clothes: "ملابس",
+        electronics: "إلكترونيات",
+        homeAppliances: "الأجهزة المنزلية",
+        newArrivals: "الوافدون الجدد",
+      },
+    },
+  };
+
+  const emailValidation = () => {
+    return String(emailInfo)
+      .toLocaleLowerCase()
+      .match(/^\w+([-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/);
+  };
+
+  const handleSubscription = () => {
+    if (emailInfo === "") {
+      setErrMsg(footerTranslations.errorMessage[language]);
+    } else if (!emailValidation(emailInfo)) {
+      setErrMsg(footerTranslations.invalidEmail[language]);
+    } else {
+      setSubscription(true);
+      setErrMsg("");
+      setEmailInfo("");
+    }
+  };
+
+  return (
+    
+    <div className={`w-full py-20 ${isDarkMode ? "bg-darkBg text-white" : "bg-lightBg text-darkText"}`}>
+       {/* Ajouter une image après la section du Footer */}
+       
+       <div className="max-w-container mx-auto flex justify-center items-center">
+          <img src={paymentCard} alt="Payment Methods" className="w-full max-w-[10000px] h-auto" />
+        </div>
+
+<br /><br />
+
+      <div className="max-w-container mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 px-4 gap-10">
+        {/* More about Orebi Shop */}
+        <div className="col-span-2">
+          <FooterListTitle title={footerTranslations.moreAboutTitle[language]} />
+          <div className="flex flex-col gap-6">
+            <p className="text-base w-full xl:w-[80%]">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim sint ab ullam, numquam nesciunt in.
+            </p>
+            <ul className="flex items-center gap-2">
+              <a href="https://www.youtube.com/@reactjsBD" target="_blank" rel="noreferrer">
+                <li className="w-7 h-7 bg-primeColor text-gray-100 hover:text-white cursor-pointer text-lg rounded-full flex justify-center items-center hover:bg-black duration-300">
+                  <FaYoutube />
+                </li>
+              </a>
+              <a href="https://github.com/noorjsdivs" target="_blank" rel="noreferrer">
+                <li className="w-7 h-7 bg-primeColor text-gray-100 hover:text-white cursor-pointer text-lg rounded-full flex justify-center items-center hover:bg-black duration-300">
+                  <FaGithub />
+                </li>
+              </a>
+              <a href="https://www.facebook.com/Noorlalu143/" target="_blank" rel="noreferrer">
+                <li className="w-7 h-7 bg-primeColor text-gray-100 hover:text-white cursor-pointer text-lg rounded-full flex justify-center items-center hover:bg-black duration-300">
+                  <FaFacebook />
+                </li>
+              </a>
+              <a href="https://www.linkedin.com/in/noor-mohammad-ab2245193/" target="_blank" rel="noreferrer">
+                <li className="w-7 h-7 bg-primeColor text-gray-100 hover:text-white cursor-pointer text-lg rounded-full flex justify-center items-center hover:bg-black duration-300">
+                  <FaLinkedin />
+                </li>
+              </a>
+            </ul>
+          </div>
+        </div>
+
+        {/* Shop Links */}
+        <div>
+          <FooterListTitle title={footerTranslations.shopTitle[language]} />
+          <ul className="flex flex-col gap-2">
+            <li className="font-titleFont text-base hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+              {footerTranslations.shopCategories[language].accessories}
+            </li>
+            <li className="font-titleFont text-base hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+              {footerTranslations.shopCategories[language].clothes}
+            </li>
+            <li className="font-titleFont text-base hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+              {footerTranslations.shopCategories[language].electronics}
+            </li>
+            <li className="font-titleFont text-base hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+              {footerTranslations.shopCategories[language].homeAppliances}
+            </li>
+            <li className="font-titleFont text-base hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+              {footerTranslations.shopCategories[language].newArrivals}
+            </li>
+          </ul>
+        </div>
+
+        {/* Your Account Links */}
+        <div>
+          <FooterListTitle title={footerTranslations.accountTitle[language]} />
+          <ul className="flex flex-col gap-2">
+            <li className="font-titleFont text-base hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+              {footerTranslations.profileLink[language]}
+            </li>
+            <li className="font-titleFont text-base hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+              {footerTranslations.ordersLink[language]}
+            </li>
+            <li className="font-titleFont text-base hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+              {footerTranslations.addressesLink[language]}
+            </li>
+            <li className="font-titleFont text-base hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+              {footerTranslations.accountDetailsLink[language]}
+            </li>
+            <li className="font-titleFont text-base hover:text-black hover:underline decoration-[1px] decoration-gray-500 underline-offset-2 cursor-pointer duration-300">
+              {footerTranslations.paymentOptionsLink[language]}
+            </li>
+          </ul>
+        </div>
+
+        {/* Subscription Section */}
+        <div className="col-span-2 flex flex-col items-center w-full px-4">
+          <FooterListTitle title={footerTranslations.subscribeTitle[language]} />
+          <div className="w-full">
+            <p className="text-center mb-4">{footerTranslations.subscribeMessage[language]}</p>
+            {subscription ? (
+              <motion.p
+                initial={{ x: 20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className="w-full text-center text-base font-titleFont font-semibold text-green-600"
+              >
+                {footerTranslations.successMessage[language]}
+              </motion.p>
+            ) : (
+              <div className="w-full flex-col xl:flex-row flex justify-between items-center gap-4">
+                <div className="flex flex-col w-full">
+                  <input
+                    onChange={(e) => setEmailInfo(e.target.value)}
+                    value={emailInfo}
+                    className="w-full h-12 border-b border-gray-400 bg-transparent px-4 text-primeColor text-lg placeholder:text-base outline-none"
+                    type="text"
+                    placeholder={footerTranslations.emailPlaceholder[language]} // Updated placeholder
+                  />
+                  {errMsg && (
+                    <p className="text-red-600 text-sm font-semibold font-titleFont text-center animate-bounce mt-2">
+                      {errMsg}
+                    </p>
+                  )}
+                </div>
+                <button
+                  onClick={handleSubscription}
+                  className="bg-white text-primeColor text-lg py-2 px-8 font-semibold tracking-wide uppercase rounded-[5px] hover:bg-primeColor hover:text-white hover:transition-all duration-300"
+                >
+                  {footerTranslations.subscribeTitle[language]} {/* The button text also changes */}
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+     
+    </div>
+  );
+};
+
+export default Footer;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\home\Footer\FooterListTitle.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\home\Footer\FooterListTitle.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\home\Footer\FooterListTitle.js
+------------------------
+import React from "react";
+
+const FooterListTitle = ({ title }) => {
+  return <h3 className="text-xl font-bodyFont font-semibold mb-6">{title}</h3>;
+};
+
+export default FooterListTitle;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\home\Header\Header.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\home\Header\Header.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\home\Header\Header.js
+------------------------
+import React, { useEffect, useState, createContext, useContext } from "react";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { MdDarkMode, MdLightMode } from "react-icons/md";
+import { HiMenuAlt2 } from "react-icons/hi";
+import { motion } from "framer-motion";
+import logo from "../../../assets/images/logo.png";
+import Image from "../../designLayouts/Image";
+import { navBarList } from "../../../constants";
+import Flex from "../../designLayouts/Flex";
+
+// Import images for each language
+import englishImage from "../../../assets/images/english.jpeg";
+import franceImage from "../../../assets/images/france.jpeg";
+import marocImage from "../../../assets/images/maroc.jpeg";
+
+// Contexts for Theme and Language
+export const ThemeContext = createContext();
+export const LanguageContext = createContext();
+
+// Language provider to manage language changes
+export const LanguageProvider = ({ children }) => {
+  const [language, setLanguage] = useState('en');
+
+  useEffect(() => {
+    const savedLang = localStorage.getItem('language');
+    if (savedLang) {
+      setLanguage(savedLang);
+    }
+  }, []);
+
+  const changeLanguage = (lang) => {
+    setLanguage(lang);
+    localStorage.setItem('language', lang);
+  };
+
+  return (
+    <LanguageContext.Provider value={{ language, changeLanguage }}>
+      {children}
+    </LanguageContext.Provider>
+  );
+};
+
+// Theme provider to manage dark/light theme toggling
+export const ThemeProvider = ({ children }) => {
+  const [theme, setTheme] = useState('light');
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setTheme(savedTheme);
+      document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+    } else {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(prefersDark ? 'dark' : 'light');
+      document.documentElement.classList.toggle('dark', prefersDark);
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+    document.documentElement.classList.toggle('dark');
+  };
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
+
+// Language selector component with images
+const LanguageSelector = () => {
+  const { language, changeLanguage } = useContext(LanguageContext);
+  const { theme } = useContext(ThemeContext);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  // Languages and their corresponding images
+  const languages = [
+    { code: 'en', name: 'English', image: englishImage },
+    { code: 'fr', name: 'Français', image: franceImage },
+    { code: 'ar', name: 'العربية', image: marocImage }
+  ];
+
+  const handleLanguageChange = (lang) => {
+    changeLanguage(lang);
+    setIsDropdownOpen(false);  // Close the dropdown after language change
+  };
+
+  return (
+    <div className="relative">
+      <button 
+        onClick={() => setIsDropdownOpen(prev => !prev)}  
+        className={`flex items-center space-x-2 px-3 py-2 rounded-md
+          ${theme === 'light' ? 'hover:bg-gray-100' : 'hover:bg-gray-700'}`}
+      >
+        {/* Current language image */}
+        <img 
+          src={languages.find(l => l.code === language)?.image} 
+          alt={language} 
+          className="w-10 h-10 object-cover rounded-full"  // Enlarged and circular (w-10 h-10 for larger size)
+        />
+      </button>
+
+      {isDropdownOpen && (
+        <div className={`absolute right-0 mt-2 py-2 w-48 rounded-md shadow-lg
+          ${theme === 'light' ? 'bg-white' : 'bg-gray-800'}`}
+        >
+          {languages.map((lang) => (
+            <button
+              key={lang.code}
+              onClick={() => handleLanguageChange(lang.code)} 
+              className={`block w-full text-left px-4 py-2
+                ${theme === 'light' ? 'hover:bg-gray-100' : 'hover:bg-gray-700'}
+                ${language === lang.code 
+                  ? theme === 'light' 
+                    ? 'bg-gray-100 font-bold' 
+                    : 'bg-gray-700 font-bold'
+                  : ''}`}
+            >
+              <img src={lang.image} alt={lang.code} className="w-10 h-10 object-cover rounded-full" /> {/* Circular and enlarged */}
+              <span className="ml-2">{lang.name}</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Header component
+const Header = () => {
+  const [showMenu, setShowMenu] = useState(true);
+  const [sidenav, setSidenav] = useState(false);
+  const location = useLocation();
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { language } = useContext(LanguageContext);
+
+  const getNavTitle = (title) => {
+    const translations = {
+      Home: {
+        en: 'Home',
+        fr: 'Accueil',
+        ar: 'الرئيسية'
+      },
+      Shop: {
+        en: 'Shop',
+        fr: 'Boutique',
+        ar: 'المتجر'
+      },
+      About: {
+        en: 'About Us',
+        fr: 'À propos',
+        ar: 'عن الشركة'
+      },
+      Contact: {
+        en: 'Contact',
+        fr: 'Contact',
+        ar: 'اتصل بنا'
+      },
+    };
+    return translations[title]?.[language] || title;
+  };
+
+  useEffect(() => {
+    const ResponsiveMenu = () => {
+      setShowMenu(window.innerWidth >= 667);
+    };
+    ResponsiveMenu();
+    window.addEventListener("resize", ResponsiveMenu);
+    return () => window.removeEventListener("resize", ResponsiveMenu);
+  }, []);
+
+  return (
+    <div className={`w-full h-20 sticky top-0 z-50 border-b-[1px] 
+      ${theme === 'light' ? 'bg-white border-b-gray-200' : 'bg-gray-800 border-b-gray-700 text-white'}`}
+    >
+      <nav className="h-full px-4 max-w-container mx-auto relative">
+        <Flex className="flex items-center justify-between h-full">
+          <Link to="/">
+            <div>
+              <Image className="w-20 object-cover" imgSrc={logo} />
+            </div>
+          </Link>
+          <div className="flex items-center gap-4">
+            <LanguageSelector />
+            <button 
+              onClick={toggleTheme} 
+              className={`p-2 rounded-full 
+                ${theme === 'light' 
+                  ? 'bg-gray-100 text-gray-800 hover:bg-gray-200' 
+                  : 'bg-gray-700 text-white hover:bg-gray-600'}`}
+            >
+              {theme === 'light' ? <MdDarkMode size={24} /> : <MdLightMode size={24} />}
+            </button>
+
+            {showMenu && (
+              <motion.ul
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className={`flex items-center w-auto z-50 p-0 gap-2 
+                  ${theme === 'light' ? 'text-[#767676]' : 'text-gray-300'}`}
+              >
+                {navBarList.slice(0, 4).map(({ _id, title, link }) => (
+  <NavLink
+    key={_id}
+    to={link}
+    state={{ data: location.pathname.split("/")[1] }}
+    className={({ isActive }) => 
+      `flex font-normal justify-center items-center px-12 text-base py-2 
+      ${isActive ? 
+        (theme === 'light' ? 'text-[#262626] font-bold' : 'text-white font-bold') 
+        : 
+        (theme === 'light' ? 'text-[#767676]' : 'text-gray-300')}
+      hover:underline underline-offset-[4px] decoration-[1px] md:border-r-[2px] border-r-gray-300 hoverEffect last:border-r-0 
+      ${theme === 'light' ? 'hover:bg-gray-100' : 'hover:bg-gray-700'}`
+    }
+  >
+    <li>{getNavTitle(title)}</li>
+  </NavLink>
+))}
+
+
+              </motion.ul>
+            )}
+
+            {/* Mobile menu button */}
+            <HiMenuAlt2
+              onClick={() => setSidenav(!sidenav)}
+              className={`inline-block md:hidden cursor-pointer w-8 h-6
+                ${theme === 'light' ? 'text-black' : 'text-white'}`}
+            />
+          </div>
+        </Flex>
+      </nav>
+
+      {/* Mobile sidenav */}
+      {sidenav && (
+        <div className={`fixed top-0 left-0 w-full h-screen z-50 
+          ${theme === 'light' 
+            ? 'bg-black text-gray-200 bg-opacity-80' 
+            : 'bg-gray-900 bg-opacity-90 text-white'}`}>
+          <motion.div
+            initial={{ x: -300, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="w-[80%] h-full relative"
+          >
+            <div className={`w-full h-full p-6 
+              ${theme === 'light' ? 'bg-white text-black' : 'bg-gray-800 text-white'}`}>
+              <img className="w-28 mb-6" src={logo} alt="logoLight" />
+              <ul className="text-gray-600 flex flex-col gap-2">
+                {navBarList.map(({ _id, title, link }) => (
+                  <li key={_id}>
+                    <Link to={link}>
+                      {getNavTitle(title)}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Header;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\home\Header\HeaderBottom.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\home\Header\HeaderBottom.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\home\Header\HeaderBottom.js
+------------------------
+import React, { useState, useRef, useEffect, useContext } from "react";
+import { motion } from "framer-motion";
+import { HiOutlineMenuAlt4 } from "react-icons/hi";
+import { FaSearch, FaUser, FaCaretDown, FaShoppingCart } from "react-icons/fa";
+import Flex from "../../designLayouts/Flex";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { paginationItems } from "../../../constants";
+
+// Import language and theme contexts
+import { LanguageContext, ThemeContext } from './Header';
+
+const HeaderBottom = () => {
+  const products = useSelector((state) => state.orebiReducer.products);
+  const [show, setShow] = useState(false);
+  const [showUser, setShowUser] = useState(false);
+  const navigate = useNavigate();
+  const ref = useRef();
+  const { language } = useContext(LanguageContext); // Get language from context
+  const { theme } = useContext(ThemeContext); // Get theme from context
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [showSearchBar, setShowSearchBar] = useState(false);
+
+  // Handle language-based content
+  const getTranslatedCategory = (category) => {
+    const translations = {
+      en: {
+        "shopByCategory": "Shop by Category",
+        "accessories": "Accessories",
+        "furniture": "Furniture",
+        "electronics": "Electronics",
+        "clothes": "Clothes",
+        "bags": "Bags",
+        "homeAppliances": "Home appliances"
+      },
+      fr: {
+        "shopByCategory": "Acheter par catégorie",
+        "accessories": "Accessoires",
+        "furniture": "Meubles",
+        "electronics": "Électronique",
+        "clothes": "Vêtements",
+        "bags": "Sacs",
+        "homeAppliances": "Appareils ménagers"
+      },
+      ar: {
+        "shopByCategory": "تسوق حسب الفئة",
+        "accessories": "إكسسوارات",
+        "furniture": "أثاث",
+        "electronics": "إلكترونيات",
+        "clothes": "ملابس",
+        "bags": "حقائب",
+        "homeAppliances": "الأجهزة المنزلية"
+      }
+    };
+
+    return translations[language][category] || category;
+  };
+
+  // Update filtered products based on search query
+  useEffect(() => {
+    const filtered = paginationItems.filter((item) =>
+      item.productName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    document.body.addEventListener("click", (e) => {
+      if (ref.current.contains(e.target)) {
+        setShow(true);
+      } else {
+        setShow(false);
+      }
+    });
+  }, [show, ref]);
+
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  return (
+    <div className={`w-full relative ${theme === "light" ? "bg-[#F5F5F3]" : "bg-gray-900"}`}>
+      <div className="max-w-container mx-auto">
+        <Flex className="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full px-4 pb-4 lg:pb-0 h-full lg:h-24">
+          {/* Shop by Category Section */}
+          <div
+            onClick={() => setShow(!show)}
+            ref={ref}
+            className={`flex h-14 cursor-pointer items-center gap-2 ${theme === "light" ? "text-primeColor" : "text-white"}`}
+          >
+            <HiOutlineMenuAlt4 className={`w-5 h-5 ${theme === "light" ? "text-primeColor" : "text-white"}`} />
+            <p className="text-[14px] font-normal">{getTranslatedCategory("shopByCategory")}</p>
+
+            {show && (
+              <motion.ul
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className={`absolute top-36 z-50 ${theme === "light" ? "bg-primeColor text-[#767676]" : "bg-gray-800 text-white"} w-auto h-auto p-4 pb-6`}
+              >
+                {["accessories", "furniture", "electronics", "clothes", "bags", "homeAppliances"].map((category) => (
+                  <li
+                    key={category}
+                    className={`text-gray-400 px-4 py-1 border-b-[1px] border-b-gray-400 hover:border-b-white hover:text-white duration-300 cursor-pointer`}
+                  >
+                    {getTranslatedCategory(category)}
+                  </li>
+                ))}
+              </motion.ul>
+            )}
+          </div>
+
+          {/* Search Bar Section */}
+          <div className={`relative w-full lg:w-[600px] h-[50px] text-base ${theme === "light" ? "text-primeColor bg-white" : "text-white bg-gray-800"} flex items-center gap-2 justify-between px-6 rounded-xl`}>
+            <input
+              className="flex-1 h-full outline-none placeholder:text-[#C4C4C4] placeholder:text-[14px]"
+              type="text"
+              onChange={handleSearch}
+              value={searchQuery}
+              placeholder={getTranslatedCategory("searchProducts")} // Translate the placeholder as well
+            />
+            <FaSearch className={`w-5 h-5 ${theme === "light" ? "text-primeColor" : "text-white"}`} />
+            {searchQuery && (
+              <div className={`w-full mx-auto h-96 bg-white top-16 absolute left-0 z-50 overflow-y-scroll shadow-2xl scrollbar-hide cursor-pointer`}>
+                {searchQuery &&
+                  filteredProducts.map((item) => (
+                    <div
+                      onClick={() => navigate(`/product/${item.productName.toLowerCase().split(" ").join("")}`, { state: { item: item } })}
+                      key={item._id}
+                      className="max-w-[600px] h-28 bg-gray-100 mb-3 flex items-center gap-3"
+                    >
+                      <img className="w-24" src={item.img} alt="productImg" />
+                      <div className="flex flex-col gap-1">
+                        <p className="font-semibold text-lg">{item.productName}</p>
+                        <p className="text-xs">{item.des}</p>
+                        <p className="text-sm">
+                          Price: <span className="text-primeColor font-semibold">${item.price}</span>
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
+
+          {/* User and Cart Section */}
+          <div className="flex gap-4 mt-2 lg:mt-0 items-center pr-6 cursor-pointer relative">
+            <div onClick={() => setShowUser(!showUser)} className="flex">
+              <FaUser className={`${theme === "light" ? "text-primeColor" : "text-white"}`} />
+              <FaCaretDown className={`${theme === "light" ? "text-primeColor" : "text-white"}`} />
+            </div>
+            {showUser && (
+              <motion.ul
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className={`absolute top-6 left-0 z-50 ${theme === "light" ? "bg-primeColor text-[#767676]" : "bg-gray-800 text-white"} w-auto p-4`}
+              >
+                <li className="text-gray-400 px-4 py-1 hover:border-b-white hover:text-white duration-300 cursor-pointer">Sign In</li>
+                <li className="text-gray-400 px-4 py-1 hover:border-b-white hover:text-white duration-300 cursor-pointer">Sign Up</li>
+              </motion.ul>
+            )}
+           
+          </div>
+        </Flex>
+      </div>
+    </div>
+  );
+};
+
+export default HeaderBottom;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\home\NewArrivals\NewArrivals.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\home\NewArrivals\NewArrivals.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\home\NewArrivals\NewArrivals.js
+------------------------
+import React from "react";
+import Slider from "react-slick";
+import Heading from "../Products/Heading";
+import Product from "../Products/Product";
+import {
+  newArrOne,
+  newArrTwo,
+  newArrThree,
+  newArrFour,
+} from "../../../assets/images/index";
+import SampleNextArrow from "./SampleNextArrow";
+import SamplePrevArrow from "./SamplePrevArrow";
+
+const NewArrivals = () => {
+  const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1025,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 769,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
+    ],
+  };
+  return (
+    <div className="w-full pb-16">
+      <Heading heading="New Arrivals" />
+      <Slider {...settings}>
+        <div className="px-2">
+          <Product
+            _id="100001"
+            img={newArrOne}
+            productName="Round Table Clock"
+            price="44.00"
+            color="Black"
+            badge={true}
+            des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
+          />
+        </div>
+        <div className="px-2">
+          <Product
+            _id="100002"
+            img={newArrTwo}
+            productName="Smart Watch"
+            price="250.00"
+            color="Black"
+            badge={true}
+            des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
+          />
+        </div>
+        <div className="px-2">
+          <Product
+            _id="100003"
+            img={newArrThree}
+            productName="cloth Basket"
+            price="80.00"
+            color="Mixed"
+            badge={true}
+            des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
+          />
+        </div>
+        <div className="px-2">
+          <Product
+            _id="100004"
+            img={newArrFour}
+            productName="Funny toys for babies"
+            price="60.00"
+            color="Mixed"
+            badge={false}
+            des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
+          />
+        </div>
+        <div className="px-2">
+          <Product
+            _id="100005"
+            img={newArrTwo}
+            productName="Funny toys for babies"
+            price="60.00"
+            color="Mixed"
+            badge={false}
+            des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
+          />
+        </div>
+      </Slider>
+    </div>
+  );
+};
+
+export default NewArrivals;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\home\NewArrivals\SampleNextArrow.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\home\NewArrivals\SampleNextArrow.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\home\NewArrivals\SampleNextArrow.js
+------------------------
+import React from "react";
+import { FaLongArrowAltRight } from "react-icons/fa";
+
+const SampleNextArrow = (props) => {
+  const { onClick } = props;
+  return (
+    <div
+      className="w-14 h-14 rounded-full text-white bg-black bg-opacity-40 hover:bg-opacity-100 duration-300 cursor-pointer flex justify-center items-center z-10 absolute top-[35%] right-2"
+      onClick={onClick}
+    >
+      <span className="text-xl">
+        <FaLongArrowAltRight />
+      </span>
+    </div>
+  );
+};
+
+export default SampleNextArrow;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\home\NewArrivals\SamplePrevArrow.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\home\NewArrivals\SamplePrevArrow.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\home\NewArrivals\SamplePrevArrow.js
+------------------------
+import React from "react";
+import { FaLongArrowAltLeft } from "react-icons/fa";
+
+const SamplePrevArrow = (props) => {
+  const { onClick } = props;
+  return (
+    <div
+      className="w-14 h-14 rounded-full text-white bg-black bg-opacity-40 hover:bg-opacity-100 duration-300 cursor-pointer flex justify-center items-center absolute z-10 top-[35%] left-2"
+      onClick={onClick}
+    >
+      <span>
+        <FaLongArrowAltLeft />
+      </span>
+    </div>
+  );
+};
+
+export default SamplePrevArrow;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\home\Products\Badge.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\home\Products\Badge.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\home\Products\Badge.js
+------------------------
+import React from "react";
+
+const Badge = ({ text }) => {
+  return (
+    <div className="bg-primeColor w-[92px] h-[35px] text-white flex justify-center items-center text-base font-semibold hover:bg-black duration-300 cursor-pointer">
+      {text}
+    </div>
+  );
+};
+
+export default Badge;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\home\Products\Heading.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\home\Products\Heading.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\home\Products\Heading.js
+------------------------
+import React from "react";
+
+const Heading = ({ heading }) => {
+  return <div className="text-3xl font-semibold pb-6">{heading}</div>;
+};
+
+export default Heading;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\home\Products\Product.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\home\Products\Product.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\home\Products\Product.js
+------------------------
+import React from "react";
+import { BsSuitHeartFill } from "react-icons/bs";
+import { GiReturnArrow } from "react-icons/gi";
+import { FaShoppingCart } from "react-icons/fa";
+import { MdOutlineLabelImportant } from "react-icons/md";
+import Image from "../../designLayouts/Image";
+import Badge from "./Badge";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart, addToWishlist } from "../../../redux/orebiSlice";
+
+const Product = (props) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
+  const _id = props._id || props.productName;
+  
+  const idString = (_id) => {
+    return String(_id).toLowerCase().split(" ").join("");
+  };
+  
+  const rootId = idString(_id);
+
+  const handleChatRedirect = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigate(`/chat/${rootId}`);
+  };
+
+  const handleProductDetails = () => {
+    navigate(`/product/${rootId}`, {
+      state: {
+        item: props,
+      },
+    });
+  };
+
+  const handleAddToWishlist = () => {
+    dispatch(
+      addToWishlist({
+        _id: props._id,
+        name: props.productName,
+        image: props.img,
+        price: props.price,
+        color: props.color,
+      })
+    );
+    // Navigate to wishlist page after adding item
+    navigate('/wishlist');
+  };
+
+  return (
+    <div className="w-full relative group">
+      <div className="max-w-80 max-h-80 relative overflow-y-hidden">
+        <div>
+          <Image className="w-full h-full" imgSrc={props.img} />
+        </div>
+        <div className="absolute top-6 left-8">
+          {props.badge && <Badge text="New" />}
+        </div>
+        <div className="w-full h-32 absolute bg-white -bottom-[130px] group-hover:bottom-0 duration-700">
+          <ul className="w-full h-full flex flex-col items-end justify-center gap-2 font-titleFont px-2 border-l border-r">
+            <li
+              onClick={handleChatRedirect}
+              className="text-[#767676] hover:text-primeColor text-sm font-normal border-b-[1px] border-b-gray-200 hover:border-b-primeColor flex items-center justify-end gap-2 hover:cursor-pointer pb-1 duration-300 w-full"
+            >
+              Chat 
+              <span>
+                <GiReturnArrow />
+              </span>
+            </li>
+            <li
+              onClick={() =>
+                dispatch(
+                  addToCart({
+                    _id: props._id,
+                    name: props.productName,
+                    quantity: 1,
+                    image: props.img,
+                    badge: props.badge,
+                    price: props.price,
+                    colors: props.color,
+                  })
+                )
+              }
+              className="text-[#767676] hover:text-primeColor text-sm font-normal border-b-[1px] border-b-gray-200 hover:border-b-primeColor flex items-center justify-end gap-2 hover:cursor-pointer pb-1 duration-300 w-full"
+            >
+              Add to Cart
+              <span>
+                <FaShoppingCart />
+              </span>
+            </li>
+            <li
+              onClick={handleProductDetails}
+              className="text-[#767676] hover:text-primeColor text-sm font-normal border-b-[1px] border-b-gray-200 hover:border-b-primeColor flex items-center justify-end gap-2 hover:cursor-pointer pb-1 duration-300 w-full"
+            >
+              View Details
+              <span className="text-lg">
+                <MdOutlineLabelImportant />
+              </span>
+            </li>
+            <li
+              onClick={handleAddToWishlist}
+              className="text-[#767676] hover:text-primeColor text-sm font-normal border-b-[1px] border-b-gray-200 hover:border-b-primeColor flex items-center justify-end gap-2 hover:cursor-pointer pb-1 duration-300 w-full"
+            >
+              Add to Wish List
+              <span>
+                <BsSuitHeartFill />
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="max-w-80 py-6 flex flex-col gap-1 border-[1px] border-t-0 px-4">
+        <div className="flex items-center justify-between font-titleFont">
+          <h2 className="text-lg text-primeColor font-bold">
+            {props.productName}
+          </h2>
+          <p className="text-[#767676] text-[14px]">${props.price}</p>
+        </div>
+        <div>
+          <p className="text-[#767676] text-[14px]">{props.color}</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Product;.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\home\Sale\Sale.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\home\Sale\Sale.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\home\Sale\Sale.js
+------------------------
+import React from "react";
+import { Link } from "react-router-dom";
+// Importing images individually
+import saleImgOne from "../../../assets/images/premium1.jpeg"; // Adjust path and file extension as necessary
+import saleImgTwo from "../../../assets/images/premium2.jpeg";
+import saleImgThree from "../../../assets/images/premium3.jpeg";
+import saleImgFour from "../../../assets/images/premium4.jpeg";
+
+const Sale = () => {
+  return (
+    <div className="max-w-container mx-auto px-4 py-10">
+      {/* Grid layout for the images */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" style={{ marginLeft: '200px' }}>
+        
+        {/* Sale Image One */}
+        <div className="relative group lg:col-span-1">
+          <Link to="/sale1">
+            <img 
+              src={saleImgOne} 
+              alt="Sale Image 1" 
+              className="w-full h-auto rounded-lg shadow-lg transform group-hover:scale-105 transition-all duration-300" 
+            />
+          </Link>
+        </div>
+        
+        {/* Sale Image Two */}
+        <div className="relative group lg:col-span-1">
+          <Link to="/sale2">
+            <img 
+              src={saleImgTwo} 
+              alt="Sale Image 2" 
+              className="w-full h-auto rounded-lg shadow-lg transform group-hover:scale-105 transition-all duration-300" 
+            />
+          </Link>
+        </div>
+        
+        {/* Sale Image Three - Hidden on mobile */}
+        <div className="relative group lg:col-span-1 hidden lg:block">
+          <Link to="/sale3">
+            <img 
+              src={saleImgThree} 
+              alt="Sale Image 3" 
+              className="w-full h-auto rounded-lg shadow-lg transform group-hover:scale-105 transition-all duration-300" 
+            />
+          </Link>
+        </div>
+
+        {/* Sale Image Four - Hidden on mobile */}
+        <div className="relative group lg:col-span-3 hidden lg:block">
+          <Link to="/sale4">
+            <img 
+              src={saleImgFour} 
+              alt="Sale Image 4" 
+              className="w-full h-auto rounded-lg shadow-lg transform group-hover:scale-105 transition-all duration-300" 
+            />
+          </Link>
+        </div>
+
+      </div>
+    </div>
+  );
+};
+
+export default Sale;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\home\SpecialOffers\SpecialOffers.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\home\SpecialOffers\SpecialOffers.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\home\SpecialOffers\SpecialOffers.js
+------------------------
+import React from "react";
+import Heading from "../Products/Heading";
+import Product from "../Products/Product";
+import {
+  spfOne,
+  spfTwo,
+  spfThree,
+  spfFour,
+} from "../../../assets/images/index";
+
+const SpecialOffers = () => {
+  return (
+    <div className="w-full pb-20">
+      <Heading heading="Special Offers" />
+      <div className="w-full grid grid-cols-1 md:grid-cols-2 lgl:grid-cols-3 xl:grid-cols-4 gap-10">
+        <Product
+          _id="1101"
+          img={spfOne}
+          productName="Cap for Boys"
+          price="35.00"
+          color="Blank and White"
+          badge={true}
+          des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
+        />
+        <Product
+          _id="1102"
+          img={spfTwo}
+          productName="Tea Table"
+          price="180.00"
+          color="Gray"
+          badge={true}
+          des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
+        />
+        <Product
+          _id="1103"
+          img={spfThree}
+          productName="Headphones"
+          price="25.00"
+          color="Mixed"
+          badge={true}
+          des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
+        />
+        <Product
+          _id="1104"
+          img={spfFour}
+          productName="Sun glasses"
+          price="220.00"
+          color="Black"
+          badge={true}
+          des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
+        />
+      </div>
+    </div>
+  );
+};
+
+export default SpecialOffers;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\home\YearProduct\YearProduct.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\home\YearProduct\YearProduct.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\home\YearProduct\YearProduct.js
+------------------------
+import React from "react";
+import { Link } from "react-router-dom";
+import { productOfTheYear } from "../../../assets/images";
+import ShopNow from "../../designLayouts/buttons/ShopNow";
+import Image from "../../designLayouts/Image";
+
+const YearProduct = () => {
+  return (
+    <Link to="/shop">
+      <div className="w-full h-80 mb-20 bg-[#f3f3f3] md:bg-transparent relative font-titleFont">
+        <Image
+          className="w-full h-full object-cover hidden md:inline-block"
+          imgSrc={productOfTheYear}
+        />
+        <div className="w-full md:w-2/3 xl:w-1/2 h-80 absolute px-4 md:px-0 top-0 right-0 flex flex-col items-start gap-6 justify-center">
+          <h1 className="text-3xl font-semibold text-primeColor">
+            Product of The year
+          </h1>
+          <p className="text-base font-normal text-primeColor max-w-[600px] mr-4">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellat
+            cupiditate modi amet! Facilis, aperiam quaerat.
+          </p>
+          <ShopNow />
+        </div>
+      </div>
+    </Link>
+  );
+};
+
+export default YearProduct;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\pageProps\Breadcrumbs.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\pageProps\Breadcrumbs.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\pageProps\Breadcrumbs.js
+------------------------
+import React, { useEffect, useState } from "react";
+import { HiOutlineChevronRight } from "react-icons/hi";
+import { useLocation } from "react-router-dom";
+
+const Breadcrumbs = ({ prevLocation, title }) => {
+  const location = useLocation();
+  const [locationPath, setLocationPath] = useState("");
+  useEffect(() => {
+    setLocationPath(location.pathname.split("/")[1]);
+  }, [location]);
+
+  return (
+    <div className="w-full py-10 xl:py-10 flex flex-col gap-3">
+      <h1 className="text-5xl text-primeColor font-titleFont font-bold">
+        {title}
+      </h1>
+      <p className="text-sm font-normal text-lightText capitalize flex items-center">
+        <span> {prevLocation === "" ? "Home" : prevLocation}</span>
+
+        <span className="px-1">
+          <HiOutlineChevronRight />
+        </span>
+        <span className="capitalize font-semibold text-primeColor">
+          {locationPath}
+        </span>
+      </p>
+    </div>
+  );
+};
+
+export default Breadcrumbs;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\pageProps\productDetails\ProductInfo.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\pageProps\productDetails\ProductInfo.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\pageProps\productDetails\ProductInfo.js
+------------------------
+import React from "react";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../../redux/orebiSlice";
+
+const ProductInfo = ({ productInfo }) => {
+  const dispatch = useDispatch();
+  return (
+    <div className="flex flex-col gap-5">
+      <h2 className="text-4xl font-semibold">{productInfo.productName}</h2>
+      <p className="text-xl font-semibold">${productInfo.price}</p>
+      <p className="text-base text-gray-600">{productInfo.des}</p>
+      <p className="text-sm">Be the first to leave a review.</p>
+      <p className="font-medium text-lg">
+        <span className="font-normal">Colors:</span> {productInfo.color}
+      </p>
+      <button
+        onClick={() =>
+          dispatch(
+            addToCart({
+              _id: productInfo.id,
+              name: productInfo.productName,
+              quantity: 1,
+              image: productInfo.img,
+              badge: productInfo.badge,
+              price: productInfo.price,
+              colors: productInfo.color,
+            })
+          )
+        }
+        className="w-full py-4 bg-primeColor hover:bg-black duration-300 text-white text-lg font-titleFont"
+      >
+        Add to Cart
+      </button>
+      <p className="font-normal text-sm">
+        <span className="text-base font-medium"> Categories:</span> Spring
+        collection, Streetwear, Women Tags: featured SKU: N/A
+      </p>
+    </div>
+  );
+};
+
+export default ProductInfo;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\pageProps\productDetails\ProductsOnSale.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\pageProps\productDetails\ProductsOnSale.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\pageProps\productDetails\ProductsOnSale.js
+------------------------
+import React from "react";
+import { SplOfferData } from "../../../constants";
+
+const ProductsOnSale = () => {
+  return (
+    <div>
+      <h3 className="font-titleFont text-xl font-semibold mb-6 underline underline-offset-4 decoration-[1px]">
+        Products on sale
+      </h3>
+      <div className="flex flex-col gap-2">
+        {SplOfferData.map((item) => (
+          <div
+            key={item._id}
+            className="flex items-center gap-4 border-b-[1px] border-b-gray-300 py-2"
+          >
+            <div>
+              <img className="w-24" src={item.img} alt={item.img} />
+            </div>
+            <div className="flex flex-col gap-2 font-titleFont">
+              <p className="text-base font-medium">{item.productName}</p>
+              <p className="text-sm font-semibold">${item.price}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default ProductsOnSale;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\Pagination.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\Pagination.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\Pagination.js
+------------------------
+import React, { useState } from "react";
+import ReactPaginate from "react-paginate";
+import Product from "../../home/Products/Product";
+import { paginationItems } from "../../../constants";
+
+const items = paginationItems;
+function Items({ currentItems }) {
+  return (
+    <>
+      {currentItems &&
+        currentItems.map((item) => (
+          <div key={item._id} className="w-full">
+            <Product
+              _id={item._id}
+              img={item.img}
+              productName={item.productName}
+              price={item.price}
+              color={item.color}
+              badge={item.badge}
+              des={item.des}
+            />
+          </div>
+        ))}
+    </>
+  );
+}
+
+const Pagination = ({ itemsPerPage }) => {
+  // Here we use item offsets; we could also use page offsets
+  // following the API or data you're working with.
+  const [itemOffset, setItemOffset] = useState(0);
+  const [itemStart, setItemStart] = useState(1);
+
+  // Simulate fetching items from another resources.
+  // (This could be items from props; or items loaded in a local state
+  // from an API endpoint with useEffect and useState)
+  const endOffset = itemOffset + itemsPerPage;
+  //   console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+  const currentItems = items.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(items.length / itemsPerPage);
+
+  // Invoke when user click to request another page.
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % items.length;
+    setItemOffset(newOffset);
+    // console.log(
+    //   `User requested page number ${event.selected}, which is offset ${newOffset},`
+    // );
+    setItemStart(newOffset);
+  };
+
+  return (
+    <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 mdl:gap-4 lg:gap-10">
+        <Items currentItems={currentItems} />
+      </div>
+      <div className="flex flex-col mdl:flex-row justify-center mdl:justify-between items-center">
+        <ReactPaginate
+          nextLabel=""
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={3}
+          marginPagesDisplayed={2}
+          pageCount={pageCount}
+          previousLabel=""
+          pageLinkClassName="w-9 h-9 border-[1px] border-lightColor hover:border-gray-500 duration-300 flex justify-center items-center"
+          pageClassName="mr-6"
+          containerClassName="flex text-base font-semibold font-titleFont py-10"
+          activeClassName="bg-black text-white"
+        />
+
+        <p className="text-base font-normal text-lightText">
+          Products from {itemStart === 0 ? 1 : itemStart} to {endOffset} of{" "}
+          {items.length}
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default Pagination;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\ProductBanner.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\ProductBanner.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\ProductBanner.js
+------------------------
+import React, { useEffect, useState } from "react";
+import { BsGridFill } from "react-icons/bs";
+import { ImList } from "react-icons/im";
+import { GoTriangleDown } from "react-icons/go";
+
+const ProductBanner = ({ itemsPerPageFromBanner }) => {
+  //   const [selected, setSelected] = useState("");
+  const [girdViewActive, setGridViewActive] = useState(true);
+  const [listViewActive, setListViewActive] = useState(false);
+  useEffect(() => {
+    const gridView = document.querySelector(".gridView");
+    const listView = document.querySelector(".listView");
+
+    gridView.addEventListener("click", () => {
+      setListViewActive(false);
+      setGridViewActive(true);
+    });
+    listView.addEventListener("click", () => {
+      setGridViewActive(false);
+      setListViewActive(true);
+    });
+  }, [girdViewActive, listViewActive]);
+
+  return (
+    <div className="w-full flex flex-col md:flex-row md:items-center justify-between">
+      {/* =========================================================
+                            Left Part Start here
+        ======================================================== */}
+
+      <div className="flex items-center gap-4">
+        <span
+          className={`${
+            girdViewActive
+              ? "bg-primeColor text-white"
+              : "border-[1px] border-gray-300 text-[#737373]"
+          } w-8 h-8 text-lg flex items-center justify-center cursor-pointer gridView`}
+        >
+          <BsGridFill />
+        </span>
+        <span
+          className={`${
+            listViewActive
+              ? "bg-primeColor text-white"
+              : "border-[1px] border-gray-300 text-[#737373]"
+          } w-8 h-8 text-base flex items-center justify-center cursor-pointer listView`}
+        >
+          <ImList />
+        </span>
+      </div>
+      {/* =========================================================
+                            Left Part End here
+        ======================================================== */}
+      {/* =========================================================
+                            Right Part STart here
+        ======================================================== */}
+      <div className="flex items-center gap-2 md:gap-6 mt-4 md:mt-0">
+        <div className="flex items-center gap-2 text-base text-[#767676] relative">
+          <label className="block">Sort by:</label>
+          <select
+            // onChange={(e) => setSelected(e.target.value)}
+            id="countries"
+            className="w-32 md:w-52 border-[1px] border-gray-200 py-1 px-4 cursor-pointer text-primeColor text-base block dark:placeholder-gray-400 appearance-none focus-within:outline-none focus-visible:border-primeColor"
+          >
+            <option value="Best Sellers">Best Sellers</option>
+            <option value="New Arrival">New Arrival</option>
+            <option value="Featured">Featured</option>
+            <option value="Final Offer">Final Offer</option>
+          </select>
+          <span className="absolute text-sm right-2 md:right-4 top-2.5">
+            <GoTriangleDown />
+          </span>
+        </div>
+        <div className="flex items-center gap-2 text-[#767676] relative">
+          <label className="block">Show:</label>
+          <select
+            onChange={(e) => itemsPerPageFromBanner(+e.target.value)}
+            id="countries"
+            className="w-16 md:w-20 border-[1px] border-gray-200 py-1 px-4 cursor-pointer text-primeColor text-base block dark:placeholder-gray-400 appearance-none focus-within:outline-none focus-visible:border-primeColor"
+          >
+            <option value="12">12</option>
+            <option value="24">24</option>
+            <option value="36">36</option>
+            <option value="48">48</option>
+          </select>
+          <span className="absolute text-sm right-3 top-2.5">
+            <GoTriangleDown />
+          </span>
+        </div>
+      </div>
+      {/* =========================================================
+                            Right Part End here
+        ======================================================== */}
+    </div>
+  );
+};
+
+export default ProductBanner;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\ShopSideNav.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\ShopSideNav.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\ShopSideNav.js
+------------------------
+import React from "react";
+import Brand from "./shopBy/Brand";
+import Category from "./shopBy/Category";
+import Color from "./shopBy/Color";
+import Price from "./shopBy/Price";
+
+const ShopSideNav = () => {
+  return (
+    <div className="w-full flex flex-col gap-6">
+      <Category icons={false} />
+      <Color />
+      <Brand />
+      <Price />
+    </div>
+  );
+};
+
+export default ShopSideNav;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\shopBy\Brand.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\shopBy\Brand.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\shopBy\Brand.js
+------------------------
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import NavTitle from "./NavTitle";
+
+const Brand = () => {
+  const [showBrands, setShowBrands] = useState(true);
+  const brands = [
+    {
+      _id: 9006,
+      title: "Apple",
+    },
+    {
+      _id: 9007,
+      title: "Ultron",
+    },
+    {
+      _id: 9008,
+      title: "Unknown",
+    },
+    {
+      _id: 9009,
+      title: "Shoppers Home",
+    },
+    {
+      _id: 9010,
+      title: "Hoichoi",
+    },
+  ];
+
+  return (
+    <div>
+      <div
+        onClick={() => setShowBrands(!showBrands)}
+        className="cursor-pointer"
+      >
+        <NavTitle title="Shop by Brand" icons={true} />
+      </div>
+      {showBrands && (
+        <motion.div
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <ul className="flex flex-col gap-4 text-sm lg:text-base text-[#767676]">
+            {brands.map((item) => (
+              <li
+                key={item._id}
+                className="border-b-[1px] border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300"
+              >
+                {item.title}
+              </li>
+            ))}
+          </ul>
+        </motion.div>
+      )}
+    </div>
+  );
+};
+
+export default Brand;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\shopBy\Category.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\shopBy\Category.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\shopBy\Category.js
+------------------------
+import React, { useState } from "react";
+// import { FaPlus } from "react-icons/fa";
+import { ImPlus } from "react-icons/im";
+import NavTitle from "./NavTitle";
+
+const Category = () => {
+  const [showSubCatOne, setShowSubCatOne] = useState(false);
+  const items = [
+    {
+      _id: 990,
+      title: "New Arrivals",
+      icons: true,
+    },
+    {
+      _id: 991,
+      title: "Gudgets",
+    },
+    {
+      _id: 992,
+      title: "Accessories",
+      icons: true,
+    },
+    {
+      _id: 993,
+      title: "Electronics",
+    },
+   
+  ];
+  return (
+    <div className="w-full">
+      <NavTitle title="Shop by Category" icons={false} />
+      <div>
+        <ul className="flex flex-col gap-4 text-sm lg:text-base text-[#767676]">
+          {items.map(({ _id, title, icons }) => (
+            <li
+              key={_id}
+              className="border-b-[1px] border-b-[#F0F0F0] pb-2 flex items-center justify-between"
+            >
+              {title}
+              {icons && (
+                <span
+                  onClick={() => setShowSubCatOne(!showSubCatOne)}
+                  className="text-[10px] lg:text-xs cursor-pointer text-gray-400 hover:text-primeColor duration-300"
+                >
+                  <ImPlus />
+                </span>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+export default Category;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\shopBy\Color.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\shopBy\Color.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\shopBy\Color.js
+------------------------
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import NavTitle from "./NavTitle";
+
+const Color = () => {
+  const [showColors, setShowColors] = useState(true);
+  const colors = [
+    {
+      _id: 9001,
+      title: "Green",
+      base: "#22c55e",
+    },
+    {
+      _id: 9002,
+      title: "Gray",
+      base: "#a3a3a3",
+    },
+    {
+      _id: 9003,
+      title: "Red",
+      base: "#dc2626",
+    },
+    {
+      _id: 9004,
+      title: "Yellow",
+      base: "#f59e0b",
+    },
+    {
+      _id: 9005,
+      title: "Blue",
+      base: "#3b82f6",
+    },
+  ];
+
+  return (
+    <div>
+      <div
+        onClick={() => setShowColors(!showColors)}
+        className="cursor-pointer"
+      >
+        <NavTitle title="Shop by Color" icons={true} />
+      </div>
+      {showColors && (
+        <motion.div
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <ul className="flex flex-col gap-4 text-sm lg:text-base text-[#767676]">
+            {colors.map((item) => (
+              <li
+                key={item._id}
+                className="border-b-[1px] border-b-[#F0F0F0] pb-2 flex items-center gap-2"
+              >
+                <span
+                  style={{ background: item.base }}
+                  className={`w-3 h-3 bg-gray-500 rounded-full`}
+                ></span>
+                {item.title}
+              </li>
+            ))}
+          </ul>
+        </motion.div>
+      )}
+    </div>
+  );
+};
+
+export default Color;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\shopBy\NavTitle.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\shopBy\NavTitle.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\shopBy\NavTitle.js
+------------------------
+import React from "react";
+import { BiCaretDown } from "react-icons/bi";
+
+const NavTitle = ({ title, icons }) => {
+  return (
+    <div className="flex items-center justify-between pb-5">
+      {icons ? (
+        <>
+          <h3 className="font-bold lg:text-xl text-primeColor">{title}</h3>
+          {icons && <BiCaretDown />}
+        </>
+      ) : (
+        <>
+          <h3 className="font-bold lg:text-xl text-primeColor">{title}</h3>
+        </>
+      )}
+    </div>
+  );
+};
+
+export default NavTitle;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\shopBy\Price.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\shopBy\Price.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\pageProps\shopPage\shopBy\Price.js
+------------------------
+import React from "react";
+import NavTitle from "./NavTitle";
+
+const Price = () => {
+  const priceList = [
+    {
+      _id: 950,
+      priceOne: 0.0,
+      priceTwo: 49.99,
+    },
+    {
+      _id: 951,
+      priceOne: 50.0,
+      priceTwo: 99.99,
+    },
+    {
+      _id: 952,
+      priceOne: 100.0,
+      priceTwo: 199.99,
+    },
+    {
+      _id: 953,
+      priceOne: 200.0,
+      priceTwo: 399.99,
+    },
+    {
+      _id: 954,
+      priceOne: 400.0,
+      priceTwo: 599.99,
+    },
+    {
+      _id: 955,
+      priceOne: 600.0,
+      priceTwo: 1000.0,
+    },
+  ];
+  return (
+    <div className="cursor-pointer">
+      <NavTitle title="Shop by Price" icons={false} />
+      <div className="font-titleFont">
+        <ul className="flex flex-col gap-4 text-sm lg:text-base text-[#767676]">
+          {priceList.map((item) => (
+            <li
+              key={item._id}
+              className="border-b-[1px] border-b-[#F0F0F0] pb-2 flex items-center gap-2 hover:text-primeColor hover:border-gray-400 duration-300"
+            >
+              ${item.priceOne.toFixed(2)} - ${item.priceTwo.toFixed(2)}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+export default Price;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\components\SpecialCase\SpecialCase.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\components\SpecialCase\SpecialCase.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\components\SpecialCase\SpecialCase.js
+------------------------
+import React from "react";
+import { Link } from "react-router-dom";
+import { RiShoppingCart2Fill } from "react-icons/ri";
+import { MdSwitchAccount } from "react-icons/md";
+import { useSelector } from "react-redux";
+
+const SpecialCase = () => {
+  const products = useSelector((state) => state.orebiReducer.products);
+  return (
+    <div className="fixed top-52 right-2 z-20 hidden md:flex flex-col gap-2">
+      <Link to="/signin">
+        <div className="bg-white w-16 h-[70px] rounded-md flex flex-col gap-1 text-[#33475b] justify-center items-center shadow-testShadow overflow-x-hidden group cursor-pointer">
+          <div className="flex justify-center items-center">
+            <MdSwitchAccount className="text-2xl -translate-x-12 group-hover:translate-x-3 transition-transform duration-200" />
+
+            <MdSwitchAccount className="text-2xl -translate-x-3 group-hover:translate-x-12 transition-transform duration-200" />
+          </div>
+          <p className="text-xs font-semibold font-titleFont">Profile</p>
+        </div>
+      </Link>
+      <Link to="/cart">
+        <div className="bg-white w-16 h-[70px] rounded-md flex flex-col gap-1 text-[#33475b] justify-center items-center shadow-testShadow overflow-x-hidden group cursor-pointer relative">
+          <div className="flex justify-center items-center">
+            <RiShoppingCart2Fill className="text-2xl -translate-x-12 group-hover:translate-x-3 transition-transform duration-200" />
+
+            <RiShoppingCart2Fill className="text-2xl -translate-x-3 group-hover:translate-x-12 transition-transform duration-200" />
+          </div>
+          <p className="text-xs font-semibold font-titleFont">Buy Now</p>
+          {products.length > 0 && (
+            <p className="absolute top-1 right-2 bg-primeColor text-white text-xs w-4 h-4 rounded-full flex items-center justify-center font-semibold">
+              {products.length}
+            </p>
+          )}
+        </div>
+      </Link>
+    </div>
+  );
+};
+
+export default SpecialCase;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\constants\index.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\constants\index.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\constants\index.js
+------------------------
+import {
+  spfOne,
+  spfTwo,
+  spfThree,
+  spfFour,
+  bestSellerOne,
+  bestSellerTwo,
+  bestSellerThree,
+  bestSellerFour,
+  newArrOne,
+  newArrTwo,
+  newArrThree,
+  newArrFour,
+} from "../assets/images/index";
+
+// =================== NavBarList Start here ====================
+export const navBarList = [
+  {
+    _id: 1001,
+    title: "Home",
+    link: "/",
+  },
+  {
+    _id: 1002,
+    title: "Shop",
+    link: "/shop",
+  },
+  {
+    _id: 1003,
+    title: "About",
+    link: "/about",
+  },
+  {
+    _id: 1004,
+    title: "Contact",
+    link: "contact",
+  },
+  {
+    _id: 1005,
+    title: "Journal",
+    link: "/journal",
+  },
+];
+// =================== NavBarList End here ======================
+// =================== Special Offer data Start here ============
+export const SplOfferData = [
+  {
+    _id: "201",
+    img: spfOne,
+    productName: "Cap for Boys",
+    price: "35.00",
+    color: "Blank and White",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: "202",
+    img: newArrFour,
+    productName: "Tea Table",
+    price: "180.00",
+    color: "Gray",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: "203",
+    img: spfThree,
+    productName: "Headphones",
+    price: "25.00",
+    color: "Mixed",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: "204",
+    img: spfFour,
+    productName: "Sun glasses",
+    price: "220.00",
+    color: "Black",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+];
+// =================== Special Offer data End here ==============
+
+// =================== PaginationItems Start here ===============
+
+export const paginationItems = [
+  {
+    _id: 1001,
+    img: spfOne,
+    productName: "Cap for Boys",
+    price: "35.00",
+    color: "Blank and White",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1002,
+    img: spfTwo,
+    productName: "Tea Table",
+    price: "180.00",
+    color: "Gray",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1003,
+    img: spfThree,
+    productName: "Headphones",
+    price: "25.00",
+    color: "Mixed",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1004,
+    img: spfFour,
+    productName: "Sun glasses",
+    price: "220.00",
+    color: "Black",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1005,
+    img: bestSellerOne,
+    productName: "Flower Base",
+    price: "35.00",
+    color: "Blank and White",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1006,
+    img: bestSellerTwo,
+    productName: "New Backpack",
+    price: "180.00",
+    color: "Gray",
+    badge: false,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1007,
+    img: bestSellerThree,
+    productName: "Household materials",
+    price: "25.00",
+    color: "Mixed",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1008,
+    img: bestSellerFour,
+    productName: "Travel Bag",
+    price: "220.00",
+    color: "Black",
+    badge: false,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1009,
+    img: newArrOne,
+    productName: "Round Table Clock",
+    price: "44.00",
+    color: "Black",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1010,
+    img: newArrTwo,
+    productName: "Smart Watch",
+    price: "250.00",
+    color: "Black",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1011,
+    img: newArrThree,
+    productName: "cloth Basket",
+    price: "80.00",
+    color: "Mixed",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1012,
+    img: newArrFour,
+    productName: "Funny toys for babies",
+    price: "60.00",
+    color: "Mixed",
+    badge: false,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1013,
+    img: newArrTwo,
+    productName: "Funny toys for babies",
+    price: "60.00",
+    color: "Mixed",
+    badge: false,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+
+  {
+    _id: 1014,
+    img: newArrTwo,
+    productName: "Smart Watch",
+    price: "250.00",
+    color: "Black",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1015,
+    img: newArrFour,
+    productName: "Funny toys for babies",
+    price: "60.00",
+    color: "Mixed",
+    badge: false,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1016,
+    img: newArrTwo,
+    productName: "Smart Watch",
+    price: "250.00",
+    color: "Black",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1017,
+    img: bestSellerFour,
+    productName: "Travel Bag",
+    price: "220.00",
+    color: "Black",
+    badge: false,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1018,
+    img: newArrOne,
+    productName: "Round Table Clock",
+    price: "44.00",
+    color: "Black",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1019,
+    img: newArrTwo,
+    productName: "Smart Watch",
+    price: "250.00",
+    color: "Black",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1020,
+    img: newArrThree,
+    productName: "cloth Basket",
+    price: "80.00",
+    color: "Mixed",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1021,
+    img: spfThree,
+    productName: "Headphones",
+    price: "25.00",
+    color: "Mixed",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1022,
+    img: spfFour,
+    productName: "Sun glasses",
+    price: "220.00",
+    color: "Black",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1023,
+    img: bestSellerOne,
+    productName: "Flower Base",
+    price: "35.00",
+    color: "Blank and White",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1024,
+    img: spfOne,
+    productName: "Cap for Boys",
+    price: "35.00",
+    color: "Blank and White",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1025,
+    img: spfTwo,
+    productName: "Tea Table",
+    price: "180.00",
+    color: "Gray",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1026,
+    img: spfThree,
+    productName: "Headphones",
+    price: "25.00",
+    color: "Mixed",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1027,
+    img: spfFour,
+    productName: "Sun glasses",
+    price: "220.00",
+    color: "Black",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1028,
+    img: bestSellerOne,
+    productName: "Flower Base",
+    price: "35.00",
+    color: "Blank and White",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1029,
+    img: bestSellerTwo,
+    productName: "New Backpack",
+    price: "180.00",
+    color: "Gray",
+    badge: false,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1030,
+    img: bestSellerThree,
+    productName: "Household materials",
+    price: "25.00",
+    color: "Mixed",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1031,
+    img: bestSellerFour,
+    productName: "Travel Bag",
+    price: "220.00",
+    color: "Black",
+    badge: false,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1032,
+    img: newArrOne,
+    productName: "Round Table Clock",
+    price: "44.00",
+    color: "Black",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1033,
+    img: newArrTwo,
+    productName: "Smart Watch",
+    price: "250.00",
+    color: "Black",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1034,
+    img: newArrThree,
+    productName: "cloth Basket",
+    price: "80.00",
+    color: "Mixed",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1035,
+    img: newArrFour,
+    productName: "Funny toys for babies",
+    price: "60.00",
+    color: "Mixed",
+    badge: false,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1036,
+    img: newArrTwo,
+    productName: "Funny toys for babies",
+    price: "60.00",
+    color: "Mixed",
+    badge: false,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1037,
+    img: newArrFour,
+    productName: "Funny toys for babies",
+    price: "60.00",
+    color: "Mixed",
+    badge: false,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1038,
+    img: newArrTwo,
+    productName: "Smart Watch",
+    price: "250.00",
+    color: "Black",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1039,
+    img: bestSellerFour,
+    productName: "Travel Bag",
+    price: "220.00",
+    color: "Black",
+    badge: false,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1040,
+    img: newArrOne,
+    productName: "Round Table Clock",
+    price: "44.00",
+    color: "Black",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1041,
+    img: newArrTwo,
+    productName: "Smart Watch",
+    price: "250.00",
+    color: "Black",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1042,
+    img: newArrThree,
+    productName: "cloth Basket",
+    price: "80.00",
+    color: "Mixed",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1043,
+    img: spfThree,
+    productName: "Headphones",
+    price: "25.00",
+    color: "Mixed",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1044,
+    img: spfFour,
+    productName: "Sun glasses",
+    price: "220.00",
+    color: "Black",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1045,
+    img: bestSellerOne,
+    productName: "Flower Base",
+    price: "35.00",
+    color: "Blank and White",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+  {
+    _id: 1046,
+    img: spfOne,
+    productName: "Cap for Boys",
+    price: "35.00",
+    color: "Blank and White",
+    badge: true,
+    des: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis.",
+  },
+];
+// =================== PaginationItems End here =================
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\constants\style.css  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\constants\style.css"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\constants\style.css
+------------------------
+.highlight {
+  color: red; /* Change this to the desired color */
+  font-weight: bold; /* Change this to the desired font weight */
+}
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\pages\ChatPage.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\pages\ChatPage.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\pages\ChatPage.js
+------------------------
+import React, { useState, useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
+import toast from 'react-hot-toast';
+
+const initialMessages = [
+  {
+    id: 1,
+    sender: 'vendor@example.com',
+    receiverId: 1,
+    text: 'Bonjour ! Comment puis-je vous aider ?',
+    timestamp: new Date().toLocaleTimeString(),
+  },
+];
+
+const quickRepliesWithResponses = [
+  {
+    question: 'Est-ce que cet article est toujours disponible ?',
+    response: 'Oui, cet article est toujours disponible en stock. Souhaitez-vous passer à l\'étape suivante pour l\'achat ?'
+  },
+  {
+    question: 'Pouvez-vous me donner plus de détails ?',
+    response: 'Bien sûr ! Cet article possède les caractéristiques suivantes : [détails du produit]. N\'hésitez pas si vous avez d\'autres questions.'
+  },
+  {
+    question: 'Quel est votre meilleur prix ?',
+    response: 'Pour cet article, je peux vous proposer une remise de 5% pour un achat immédiat. Qu\'en pensez-vous ?'
+  },
+  {
+    question: 'Quand êtes-vous disponible ?',
+    response: 'Je suis disponible du lundi au vendredi de 9h à 18h pour répondre à vos questions ou organiser une livraison.'
+  }
+];
+
+const ChatPage = () => {
+  const { id } = useParams();
+  const currentUser = 'Utilisateur';
+
+  const [messages, setMessages] = useState(initialMessages);
+  const [newMessage, setNewMessage] = useState('');
+  const [isSellerOnline, setIsSellerOnline] = useState(true);
+
+  const chatContainerRef = useRef(null);
+
+  const scrollToBottom = () => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsSellerOnline(Math.random() > 0.5);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+
+    if (!newMessage.trim()) return;
+
+    try {
+      const userMessage = {
+        id: Date.now(),
+        sender: currentUser,
+        receiverId: parseInt(id || '0'),
+        text: newMessage,
+        timestamp: new Date().toLocaleTimeString(),
+      };
+
+      setMessages((prev) => [...prev, userMessage]);
+      setNewMessage('');
+
+      // Trouver la réponse automatique correspondante
+      const quickReply = quickRepliesWithResponses.find(
+        reply => reply.question === userMessage.text
+      );
+
+      setTimeout(() => {
+        const sellerResponse = {
+          id: Date.now() + 1,
+          sender: 'vendor@example.com',
+          receiverId: 1,
+          text: quickReply ? quickReply.response : 'Merci pour votre message. Je reviendrai vers vous dès que possible.',
+          timestamp: new Date().toLocaleTimeString(),
+        };
+        setMessages((prev) => [...prev, sellerResponse]);
+      }, 1000);
+    } catch (error) {
+      toast.error("Erreur lors de l'envoi du message");
+    }
+  };
+
+  const handleQuickReply = (reply) => {
+    setNewMessage(reply);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 p-4 sm:p-10">
+      <div className="bg-white dark:bg-gray-800 p-6 sm:p-10 rounded-3xl shadow-2xl max-w-4xl mx-auto">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">
+              Chat avec le vendeur
+            </h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+              ID: {id}
+            </p>
+          </div>
+          <span
+            className={`px-3 py-1 rounded-full text-sm font-medium ${
+              isSellerOnline
+                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100'
+                : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100'
+            }`}
+          >
+            {isSellerOnline ? 'En ligne' : 'Hors ligne'}
+          </span>
+        </div>
+
+        <div
+          ref={chatContainerRef}
+          className="h-96 overflow-y-auto mb-6 space-y-4 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 p-4"
+        >
+          {messages.map((message) => (
+            <div
+              key={message.id}
+              className={`flex flex-col ${message.sender === currentUser ? 'items-end' : 'items-start'}`}
+            >
+              <div
+                className={`inline-block max-w-[80%] px-5 py-3 rounded-xl shadow-md ${
+                  message.sender === currentUser
+                    ? 'bg-gradient-to-r from-blue-500 to-purple-600'
+                    : 'bg-gray-200 dark:bg-gray-700'
+                }`}
+              >
+                <p
+                  className={`break-words ${
+                    message.sender === currentUser ? 'text-white' : 'text-gray-800 dark:text-white'
+                  }`}
+                >
+                  {message.text}
+                </p>
+              </div>
+              <div className="flex items-center gap-2 mt-1">
+                <p className="text-xs text-gray-500 dark:text-gray-400">{message.timestamp}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mb-6">
+          <p className="text-lg text-gray-600 dark:text-gray-300 mb-2">Réponses rapides :</p>
+          <div className="flex flex-wrap gap-3">
+            {quickRepliesWithResponses.map((reply, index) => (
+              <button
+                key={index}
+                onClick={() => handleQuickReply(reply.question)}
+                className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-full transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                {reply.question}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <form onSubmit={handleSendMessage} className="flex gap-4">
+          <input
+            type="text"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            className="w-full px-5 py-3 border border-gray-300 dark:border-gray-600 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-700 dark:text-white transition"
+            placeholder="Tapez votre message..."
+          />
+          <button
+            type="submit"
+            disabled={!newMessage.trim()}
+            className="bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold px-6 py-3 rounded-full shadow-lg hover:shadow-xl transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Envoyer
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default ChatPage;.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\pages\Wishlist.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\pages\Wishlist.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\pages\Wishlist.js
+------------------------
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { removeFromWishlist } from '../redux/orebiSlice';
+import Product from '../components/home/Products/Product';
+import emptyCartImage from '../assets/images/emptyCart.jpg';  // Adjust the path as needed
+
+const WishlistItem = ({ item, onRemove }) => {
+  return (
+    <div className="relative">
+      <button
+        onClick={() => onRemove(item._id)}
+        className="absolute top-2 right-2 z-10 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600"
+      >
+        ×
+      </button>
+      <Product
+        _id={item._id}
+        img={item.image}
+        productName={item.name}
+        price={item.price}
+        color={item.color}
+      />
+    </div>
+  );
+};
+
+const Wishlist = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const wishlist = useSelector((state) => state.orebiReducer.wishlist);
+
+  const handleRemoveFromWishlist = (itemId) => {
+    dispatch(removeFromWishlist(itemId));
+  };
+
+  if (!wishlist || wishlist.length === 0) {
+    return (
+      <div className="container mx-auto font-karla min-h-[83vh] px-4">
+        <div className="flex flex-col justify-center items-center p-8">
+        <img src={emptyCartImage} className="w-60" alt="empty" />
+        <p className="text-center text-xl font-semibold my-2 dark:text-white">
+            Your wishlist is empty
+          </p>
+          <button
+            onClick={() => navigate('/shop')}
+            className="bg-primeColor text-white px-8 py-2 mt-4 rounded-md hover:bg-opacity-90"
+          >
+            Continue Shopping
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container mx-auto font-karla min-h-[83vh] px-4">
+      <div className="flex justify-between items-center my-8">
+        <h2 className="text-2xl font-bold">Your Wishlist ({wishlist.length} items)</h2>
+        <button
+          onClick={() => navigate('/shop')}
+          className="bg-primeColor text-white px-6 py-2 rounded-md hover:bg-opacity-90"
+        >
+          Continue Shopping
+        </button>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {wishlist.map((item) => (
+          <WishlistItem
+            key={item._id}
+            item={item}
+            onRemove={handleRemoveFromWishlist}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Wishlist;.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\pages\About\About.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\pages\About\About.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\pages\About\About.js
+------------------------
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
+
+const About = () => {
+  const location = useLocation();
+  const [prevLocation, setPrevLocation] = useState("");
+  useEffect(() => {
+    setPrevLocation(location.state.data);
+  }, [location]);
+  return (
+    <div className="max-w-container mx-auto px-4">
+      <Breadcrumbs title="About" prevLocation={prevLocation} />
+      <div className="pb-10">
+        <h1 className="max-w-[600px] text-base text-lightText mb-2">
+          <span className="text-primeColor font-semibold text-lg">Orebi</span>{" "}
+          is one of the world's leading ecommerce brands and is internationally
+          recognized for celebrating the essence of classic Worldwide cool
+          looking style.
+        </h1>
+        <Link to="/shop">
+          <button className="w-52 h-10 bg-primeColor text-white hover:bg-black duration-300">
+            Continue Shopping
+          </button>
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default About;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\pages\Account\SignIn.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\pages\Account\SignIn.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\pages\Account\SignIn.js
+------------------------
+import React, { useState } from "react";
+import { BsCheckCircleFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
+import { logoLight } from "../../assets/images";
+
+const SignIn = () => {
+  // ============= Initial State Start here =============
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  // ============= Initial State End here ===============
+  // ============= Error Msg Start here =================
+  const [errEmail, setErrEmail] = useState("");
+  const [errPassword, setErrPassword] = useState("");
+
+  // ============= Error Msg End here ===================
+  const [successMsg, setSuccessMsg] = useState("");
+  // ============= Event Handler Start here =============
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+    setErrEmail("");
+  };
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+    setErrPassword("");
+  };
+  // ============= Event Handler End here ===============
+  const handleSignUp = (e) => {
+    e.preventDefault();
+
+    if (!email) {
+      setErrEmail("Enter your email");
+    }
+
+    if (!password) {
+      setErrPassword("Create a password");
+    }
+    // ============== Getting the value ==============
+    if (email && password) {
+      setSuccessMsg(
+        `Hello dear, Thank you for your attempt. We are processing to validate your access. Till then stay connected and additional assistance will be sent to you by your mail at ${email}`
+      );
+      setEmail("");
+      setPassword("");
+    }
+  };
+  return (
+    <div className="w-full h-screen flex items-center justify-center">
+      <div className="w-1/2 hidden lgl:inline-flex h-full text-white">
+        <div className="w-[450px] h-full bg-primeColor px-10 flex flex-col gap-6 justify-center">
+          <Link to="/">
+            <img src={logoLight} alt="logoImg" className="w-28" />
+          </Link>
+          <div className="flex flex-col gap-1 -mt-1">
+            <h1 className="font-titleFont text-xl font-medium">
+              Stay sign in for more
+            </h1>
+            <p className="text-base">When you sign in, you are with us!</p>
+          </div>
+          <div className="w-[300px] flex items-start gap-3">
+            <span className="text-green-500 mt-1">
+              <BsCheckCircleFill />
+            </span>
+            <p className="text-base text-gray-300">
+              <span className="text-white font-semibold font-titleFont">
+                Get started fast with OREBI
+              </span>
+              <br />
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab omnis
+              nisi dolor recusandae consectetur!
+            </p>
+          </div>
+          <div className="w-[300px] flex items-start gap-3">
+            <span className="text-green-500 mt-1">
+              <BsCheckCircleFill />
+            </span>
+            <p className="text-base text-gray-300">
+              <span className="text-white font-semibold font-titleFont">
+                Access all OREBI services
+              </span>
+              <br />
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab omnis
+              nisi dolor recusandae consectetur!
+            </p>
+          </div>
+          <div className="w-[300px] flex items-start gap-3">
+            <span className="text-green-500 mt-1">
+              <BsCheckCircleFill />
+            </span>
+            <p className="text-base text-gray-300">
+              <span className="text-white font-semibold font-titleFont">
+                Trusted by online Shoppers
+              </span>
+              <br />
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab omnis
+              nisi dolor recusandae consectetur!
+            </p>
+          </div>
+          <div className="flex items-center justify-between mt-10">
+            <Link to="/">
+              <p className="text-sm font-titleFont font-semibold text-gray-300 hover:text-white cursor-pointer duration-300">
+                © OREBI
+              </p>
+            </Link>
+            <p className="text-sm font-titleFont font-semibold text-gray-300 hover:text-white cursor-pointer duration-300">
+              Terms
+            </p>
+            <p className="text-sm font-titleFont font-semibold text-gray-300 hover:text-white cursor-pointer duration-300">
+              Privacy
+            </p>
+            <p className="text-sm font-titleFont font-semibold text-gray-300 hover:text-white cursor-pointer duration-300">
+              Security
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="w-full lgl:w-1/2 h-full">
+        {successMsg ? (
+          <div className="w-full lgl:w-[500px] h-full flex flex-col justify-center">
+            <p className="w-full px-4 py-10 text-green-500 font-medium font-titleFont">
+              {successMsg}
+            </p>
+            <Link to="/signup">
+              <button
+                className="w-full h-10 bg-primeColor text-gray-200 rounded-md text-base font-titleFont font-semibold 
+            tracking-wide hover:bg-black hover:text-white duration-300"
+              >
+                Sign Up
+              </button>
+            </Link>
+          </div>
+        ) : (
+          <form className="w-full lgl:w-[450px] h-screen flex items-center justify-center">
+            <div className="px-6 py-4 w-full h-[90%] flex flex-col justify-center overflow-y-scroll scrollbar-thin scrollbar-thumb-primeColor">
+              <h1 className="font-titleFont underline underline-offset-4 decoration-[1px] font-semibold text-3xl mdl:text-4xl mb-4">
+                Sign in
+              </h1>
+              <div className="flex flex-col gap-3">
+                {/* Email */}
+                <div className="flex flex-col gap-.5">
+                  <p className="font-titleFont text-base font-semibold text-gray-600">
+                    Work Email
+                  </p>
+                  <input
+                    onChange={handleEmail}
+                    value={email}
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                    type="email"
+                    placeholder="john@workemail.com"
+                  />
+                  {errEmail && (
+                    <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                      <span className="font-bold italic mr-1">!</span>
+                      {errEmail}
+                    </p>
+                  )}
+                </div>
+
+                {/* Password */}
+                <div className="flex flex-col gap-.5">
+                  <p className="font-titleFont text-base font-semibold text-gray-600">
+                    Password
+                  </p>
+                  <input
+                    onChange={handlePassword}
+                    value={password}
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                    type="password"
+                    placeholder="Create password"
+                  />
+                  {errPassword && (
+                    <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                      <span className="font-bold italic mr-1">!</span>
+                      {errPassword}
+                    </p>
+                  )}
+                </div>
+
+                <button
+                  onClick={handleSignUp}
+                  className="bg-primeColor hover:bg-black text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md  duration-300"
+                >
+                  Sign In
+                </button>
+                <p className="text-sm text-center font-titleFont font-medium">
+                  Don't have an Account?{" "}
+                  <Link to="/signup">
+                    <span className="hover:text-blue-600 duration-300">
+                      Sign up
+                    </span>
+                  </Link>
+                </p>
+              </div>
+            </div>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default SignIn;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\pages\Account\SignUp.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\pages\Account\SignUp.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\pages\Account\SignUp.js
+------------------------
+import React, { useState } from "react";
+import { BsCheckCircleFill } from "react-icons/bs";
+import { Link } from "react-router-dom";
+import { logoLight } from "../../assets/images";
+
+const SignUp = () => {
+  // ============= Initial State Start here =============
+  const [clientName, setClientName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [country, setCountry] = useState("");
+  const [zip, setZip] = useState("");
+  const [checked, setChecked] = useState(false);
+  // ============= Initial State End here ===============
+  // ============= Error Msg Start here =================
+  const [errClientName, setErrClientName] = useState("");
+  const [errEmail, setErrEmail] = useState("");
+  const [errPhone, setErrPhone] = useState("");
+  const [errPassword, setErrPassword] = useState("");
+  const [errAddress, setErrAddress] = useState("");
+  const [errCity, setErrCity] = useState("");
+  const [errCountry, setErrCountry] = useState("");
+  const [errZip, setErrZip] = useState("");
+  // ============= Error Msg End here ===================
+  const [successMsg, setSuccessMsg] = useState("");
+  // ============= Event Handler Start here =============
+  const handleName = (e) => {
+    setClientName(e.target.value);
+    setErrClientName("");
+  };
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+    setErrEmail("");
+  };
+  const handlePhone = (e) => {
+    setPhone(e.target.value);
+    setErrPhone("");
+  };
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+    setErrPassword("");
+  };
+  const handleAddress = (e) => {
+    setAddress(e.target.value);
+    setErrAddress("");
+  };
+  const handleCity = (e) => {
+    setCity(e.target.value);
+    setErrCity("");
+  };
+  const handleCountry = (e) => {
+    setCountry(e.target.value);
+    setErrCountry("");
+  };
+  const handleZip = (e) => {
+    setZip(e.target.value);
+    setErrZip("");
+  };
+  // ============= Event Handler End here ===============
+  // ================= Email Validation start here =============
+  const EmailValidation = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
+  };
+  // ================= Email Validation End here ===============
+
+  const handleSignUp = (e) => {
+    e.preventDefault();
+    if (checked) {
+      if (!clientName) {
+        setErrClientName("Enter your name");
+      }
+      if (!email) {
+        setErrEmail("Enter your email");
+      } else {
+        if (!EmailValidation(email)) {
+          setErrEmail("Enter a Valid email");
+        }
+      }
+      if (!phone) {
+        setErrPhone("Enter your phone number");
+      }
+      if (!password) {
+        setErrPassword("Create a password");
+      } else {
+        if (password.length < 6) {
+          setErrPassword("Passwords must be at least 6 characters");
+        }
+      }
+      if (!address) {
+        setErrAddress("Enter your address");
+      }
+      if (!city) {
+        setErrCity("Enter your city name");
+      }
+      if (!country) {
+        setErrCountry("Enter the country you are residing");
+      }
+      if (!zip) {
+        setErrZip("Enter the zip code of your area");
+      }
+      // ============== Getting the value ==============
+      if (
+        clientName &&
+        email &&
+        EmailValidation(email) &&
+        password &&
+        password.length >= 6 &&
+        address &&
+        city &&
+        country &&
+        zip
+      ) {
+        setSuccessMsg(
+          `Hello dear ${clientName}, Welcome you to OREBI Admin panel. We received your Sign up request. We are processing to validate your access. Till then stay connected and additional assistance will be sent to you by your mail at ${email}`
+        );
+        setClientName("");
+        setEmail("");
+        setPhone("");
+        setPassword("");
+        setAddress("");
+        setCity("");
+        setCountry("");
+        setZip("");
+      }
+    }
+  };
+  return (
+    <div className="w-full h-screen flex items-center justify-start">
+      <div className="w-1/2 hidden lgl:inline-flex h-full text-white">
+        <div className="w-[450px] h-full bg-primeColor px-10 flex flex-col gap-6 justify-center">
+          <Link to="/">
+            <img src={logoLight} alt="logoImg" className="w-28" />
+          </Link>
+          <div className="flex flex-col gap-1 -mt-1">
+            <h1 className="font-titleFont text-xl font-medium">
+              Get started for free
+            </h1>
+            <p className="text-base">Create your account to access more</p>
+          </div>
+          <div className="w-[300px] flex items-start gap-3">
+            <span className="text-green-500 mt-1">
+              <BsCheckCircleFill />
+            </span>
+            <p className="text-base text-gray-300">
+              <span className="text-white font-semibold font-titleFont">
+                Get started fast with OREBI
+              </span>
+              <br />
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab omnis
+              nisi dolor recusandae consectetur!
+            </p>
+          </div>
+          <div className="w-[300px] flex items-start gap-3">
+            <span className="text-green-500 mt-1">
+              <BsCheckCircleFill />
+            </span>
+            <p className="text-base text-gray-300">
+              <span className="text-white font-semibold font-titleFont">
+                Access all OREBI services
+              </span>
+              <br />
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab omnis
+              nisi dolor recusandae consectetur!
+            </p>
+          </div>
+          <div className="w-[300px] flex items-start gap-3">
+            <span className="text-green-500 mt-1">
+              <BsCheckCircleFill />
+            </span>
+            <p className="text-base text-gray-300">
+              <span className="text-white font-semibold font-titleFont">
+                Trusted by online Shoppers
+              </span>
+              <br />
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab omnis
+              nisi dolor recusandae consectetur!
+            </p>
+          </div>
+          <div className="flex items-center justify-between mt-10">
+            <p className="text-sm font-titleFont font-semibold text-gray-300 hover:text-white cursor-pointer duration-300">
+              © OREBI
+            </p>
+            <p className="text-sm font-titleFont font-semibold text-gray-300 hover:text-white cursor-pointer duration-300">
+              Terms
+            </p>
+            <p className="text-sm font-titleFont font-semibold text-gray-300 hover:text-white cursor-pointer duration-300">
+              Privacy
+            </p>
+            <p className="text-sm font-titleFont font-semibold text-gray-300 hover:text-white cursor-pointer duration-300">
+              Security
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="w-full lgl:w-[500px] h-full flex flex-col justify-center">
+        {successMsg ? (
+          <div className="w-[500px]">
+            <p className="w-full px-4 py-10 text-green-500 font-medium font-titleFont">
+              {successMsg}
+            </p>
+            <Link to="/signin">
+              <button
+                className="w-full h-10 bg-primeColor rounded-md text-gray-200 text-base font-titleFont font-semibold 
+            tracking-wide hover:bg-black hover:text-white duration-300"
+              >
+                Sign in
+              </button>
+            </Link>
+          </div>
+        ) : (
+          <form className="w-full lgl:w-[500px] h-screen flex items-center justify-center">
+            <div className="px-6 py-4 w-full h-[96%] flex flex-col justify-start overflow-y-scroll scrollbar-thin scrollbar-thumb-primeColor">
+              <h1 className="font-titleFont underline underline-offset-4 decoration-[1px] font-semibold text-2xl mdl:text-3xl mb-4">
+                Create your account
+              </h1>
+              <div className="flex flex-col gap-3">
+                {/* client name */}
+                <div className="flex flex-col gap-.5">
+                  <p className="font-titleFont text-base font-semibold text-gray-600">
+                    Full Name
+                  </p>
+                  <input
+                    onChange={handleName}
+                    value={clientName}
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                    type="text"
+                    placeholder="eg. John Doe"
+                  />
+                  {errClientName && (
+                    <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                      <span className="font-bold italic mr-1">!</span>
+                      {errClientName}
+                    </p>
+                  )}
+                </div>
+                {/* Email */}
+                <div className="flex flex-col gap-.5">
+                  <p className="font-titleFont text-base font-semibold text-gray-600">
+                    Work Email
+                  </p>
+                  <input
+                    onChange={handleEmail}
+                    value={email}
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                    type="email"
+                    placeholder="john@workemail.com"
+                  />
+                  {errEmail && (
+                    <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                      <span className="font-bold italic mr-1">!</span>
+                      {errEmail}
+                    </p>
+                  )}
+                </div>
+                {/* Phone Number */}
+                <div className="flex flex-col gap-.5">
+                  <p className="font-titleFont text-base font-semibold text-gray-600">
+                    Phone Number
+                  </p>
+                  <input
+                    onChange={handlePhone}
+                    value={phone}
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                    type="text"
+                    placeholder="008801234567891"
+                  />
+                  {errPhone && (
+                    <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                      <span className="font-bold italic mr-1">!</span>
+                      {errPhone}
+                    </p>
+                  )}
+                </div>
+                {/* Password */}
+                <div className="flex flex-col gap-.5">
+                  <p className="font-titleFont text-base font-semibold text-gray-600">
+                    Password
+                  </p>
+                  <input
+                    onChange={handlePassword}
+                    value={password}
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                    type="password"
+                    placeholder="Create password"
+                  />
+                  {errPassword && (
+                    <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                      <span className="font-bold italic mr-1">!</span>
+                      {errPassword}
+                    </p>
+                  )}
+                </div>
+                {/* Address */}
+                <div className="flex flex-col gap-.5">
+                  <p className="font-titleFont text-base font-semibold text-gray-600">
+                    Address
+                  </p>
+                  <input
+                    onChange={handleAddress}
+                    value={address}
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                    type="text"
+                    placeholder="road-001, house-115, example area"
+                  />
+                  {errAddress && (
+                    <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                      <span className="font-bold italic mr-1">!</span>
+                      {errAddress}
+                    </p>
+                  )}
+                </div>
+                {/* City */}
+                <div className="flex flex-col gap-.5">
+                  <p className="font-titleFont text-base font-semibold text-gray-600">
+                    City
+                  </p>
+                  <input
+                    onChange={handleCity}
+                    value={city}
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                    type="text"
+                    placeholder="Your city"
+                  />
+                  {errCity && (
+                    <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                      <span className="font-bold italic mr-1">!</span>
+                      {errCity}
+                    </p>
+                  )}
+                </div>
+                {/* Country */}
+                <div className="flex flex-col gap-.5">
+                  <p className="font-titleFont text-base font-semibold text-gray-600">
+                    Country
+                  </p>
+                  <input
+                    onChange={handleCountry}
+                    value={country}
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                    type="text"
+                    placeholder="Your country"
+                  />
+                  {errCountry && (
+                    <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                      <span className="font-bold italic mr-1">!</span>
+                      {errCountry}
+                    </p>
+                  )}
+                </div>
+                {/* Zip code */}
+                <div className="flex flex-col gap-.5">
+                  <p className="font-titleFont text-base font-semibold text-gray-600">
+                    Zip/Postal code
+                  </p>
+                  <input
+                    onChange={handleZip}
+                    value={zip}
+                    className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+                    type="text"
+                    placeholder="Your country"
+                  />
+                  {errZip && (
+                    <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
+                      <span className="font-bold italic mr-1">!</span>
+                      {errZip}
+                    </p>
+                  )}
+                </div>
+                {/* Checkbox */}
+                <div className="flex items-start mdl:items-center gap-2">
+                  <input
+                    onChange={() => setChecked(!checked)}
+                    className="w-4 h-4 mt-1 mdl:mt-0 cursor-pointer"
+                    type="checkbox"
+                  />
+                  <p className="text-sm text-primeColor">
+                    I agree to the OREBI{" "}
+                    <span className="text-blue-500">Terms of Service </span>and{" "}
+                    <span className="text-blue-500">Privacy Policy</span>.
+                  </p>
+                </div>
+                <button
+                  onClick={handleSignUp}
+                  className={`${
+                    checked
+                      ? "bg-primeColor hover:bg-black hover:text-white cursor-pointer"
+                      : "bg-gray-500 hover:bg-gray-500 hover:text-gray-200 cursor-none"
+                  } w-full text-gray-200 text-base font-medium h-10 rounded-md hover:text-white duration-300`}
+                >
+                  Create Account
+                </button>
+                <p className="text-sm text-center font-titleFont font-medium">
+                  Don't have an Account?{" "}
+                  <Link to="/signin">
+                    <span className="hover:text-blue-600 duration-300">
+                      Sign in
+                    </span>
+                  </Link>
+                </p>
+              </div>
+            </div>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default SignUp;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\pages\Cart\Cart.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\pages\Cart\Cart.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\pages\Cart\Cart.js
+------------------------
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
+import { resetCart } from "../../redux/orebiSlice";
+import { emptyCart } from "../../assets/images/index";
+import ItemCard from "./ItemCard";
+
+const Cart = () => {
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.orebiReducer.products);
+  const [totalAmt, setTotalAmt] = useState("");
+  const [shippingCharge, setShippingCharge] = useState("");
+  useEffect(() => {
+    let price = 0;
+    products.map((item) => {
+      price += item.price * item.quantity;
+      return price;
+    });
+    setTotalAmt(price);
+  }, [products]);
+  useEffect(() => {
+    if (totalAmt <= 200) {
+      setShippingCharge(30);
+    } else if (totalAmt <= 400) {
+      setShippingCharge(25);
+    } else if (totalAmt > 401) {
+      setShippingCharge(20);
+    }
+  }, [totalAmt]);
+  return (
+    <div className="max-w-container mx-auto px-4">
+      <Breadcrumbs title="Cart" />
+      {products.length > 0 ? (
+        <div className="pb-20">
+          <div className="w-full h-20 bg-[#F5F7F7] text-primeColor hidden lgl:grid grid-cols-5 place-content-center px-6 text-lg font-titleFont font-semibold">
+            <h2 className="col-span-2">Product</h2>
+            <h2>Price</h2>
+            <h2>Quantity</h2>
+            <h2>Sub Total</h2>
+          </div>
+          <div className="mt-5">
+            {products.map((item) => (
+              <div key={item._id}>
+                <ItemCard item={item} />
+              </div>
+            ))}
+          </div>
+
+          <button
+            onClick={() => dispatch(resetCart())}
+            className="py-2 px-10 bg-red-500 text-white font-semibold uppercase mb-4 hover:bg-red-700 duration-300"
+          >
+            Reset cart
+          </button>
+
+          <div className="flex flex-col mdl:flex-row justify-between border py-4 px-4 items-center gap-2 mdl:gap-0">
+            <div className="flex items-center gap-4">
+              <input
+                className="w-44 mdl:w-52 h-8 px-4 border text-primeColor text-sm outline-none border-gray-400"
+                type="text"
+                placeholder="Coupon Number"
+              />
+              <p className="text-sm mdl:text-base font-semibold">
+                Apply Coupon
+              </p>
+            </div>
+            <p className="text-lg font-semibold">Update Cart</p>
+          </div>
+          <div className="max-w-7xl gap-4 flex justify-end mt-4">
+            <div className="w-96 flex flex-col gap-4">
+              <h1 className="text-2xl font-semibold text-right">Cart totals</h1>
+              <div>
+                <p className="flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium">
+                  Subtotal
+                  <span className="font-semibold tracking-wide font-titleFont">
+                    ${totalAmt}
+                  </span>
+                </p>
+                <p className="flex items-center justify-between border-[1px] border-gray-400 border-b-0 py-1.5 text-lg px-4 font-medium">
+                  Shipping Charge
+                  <span className="font-semibold tracking-wide font-titleFont">
+                    ${shippingCharge}
+                  </span>
+                </p>
+                <p className="flex items-center justify-between border-[1px] border-gray-400 py-1.5 text-lg px-4 font-medium">
+                  Total
+                  <span className="font-bold tracking-wide text-lg font-titleFont">
+                    ${totalAmt + shippingCharge}
+                  </span>
+                </p>
+              </div>
+              <div className="flex justify-end">
+                <Link to="/paymentgateway">
+                  <button className="w-52 h-10 bg-primeColor text-white hover:bg-black duration-300">
+                    Proceed to Checkout
+                  </button>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <motion.div
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.4 }}
+          className="flex flex-col mdl:flex-row justify-center items-center gap-4 pb-20"
+        >
+          <div>
+            <img
+              className="w-80 rounded-lg p-4 mx-auto"
+              src={emptyCart}
+              alt="emptyCart"
+            />
+          </div>
+          <div className="max-w-[500px] p-4 py-8 bg-white flex gap-4 flex-col items-center rounded-md shadow-lg">
+            <h1 className="font-titleFont text-xl font-bold uppercase">
+              Your Cart feels lonely.
+            </h1>
+            <p className="text-sm text-center px-10 -mt-2">
+              Your Shopping cart lives to serve. Give it purpose - fill it with
+              books, electronics, videos, etc. and make it happy.
+            </p>
+            <Link to="/shop">
+              <button className="bg-primeColor rounded-md cursor-pointer hover:bg-black active:bg-gray-900 px-8 py-2 font-titleFont font-semibold text-lg text-gray-200 hover:text-white duration-300">
+                Continue Shopping
+              </button>
+            </Link>
+          </div>
+        </motion.div>
+      )}
+    </div>
+  );
+};
+
+export default Cart;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\pages\Cart\ItemCard.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\pages\Cart\ItemCard.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\pages\Cart\ItemCard.js
+------------------------
+import React from "react";
+import { ImCross } from "react-icons/im";
+import { useDispatch } from "react-redux";
+import {
+  deleteItem,
+  decreaseQuantity,  // Corrected the typo here
+  increaseQuantity,
+} from "../../redux/orebiSlice";
+
+const ItemCard = ({ item }) => {
+  const dispatch = useDispatch();
+  return (
+    <div className="w-full grid grid-cols-5 mb-4 border py-2">
+      <div className="flex col-span-5 mdl:col-span-2 items-center gap-4 ml-4">
+        <ImCross
+          onClick={() => dispatch(deleteItem(item._id))}
+          className="text-primeColor hover:text-red-500 duration-300 cursor-pointer"
+        />
+        <img className="w-32 h-32" src={item.image} alt="productImage" />
+        <h1 className="font-titleFont font-semibold">{item.name}</h1>
+      </div>
+      <div className="col-span-5 mdl:col-span-3 flex items-center justify-between py-4 mdl:py-0 px-4 mdl:px-0 gap-6 mdl:gap-0">
+        <div className="flex w-1/3 items-center text-lg font-semibold">
+          ${item.price}
+        </div>
+        <div className="w-1/3 flex items-center gap-6 text-lg">
+          <span
+            onClick={() => dispatch(decreaseQuantity({ _id: item._id }))}  // Corrected the typo here
+            className="w-6 h-6 bg-gray-100 text-2xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-[1px] border-gray-300 hover:border-gray-300"
+          >
+            -
+          </span>
+          <p>{item.quantity}</p>
+          <span
+            onClick={() => dispatch(increaseQuantity({ _id: item._id }))}
+            className="w-6 h-6 bg-gray-100 text-2xl flex items-center justify-center hover:bg-gray-300 cursor-pointer duration-300 border-[1px] border-gray-300 hover:border-gray-300"
+          >
+            +
+          </span>
+        </div>
+        <div className="w-1/3 flex items-center font-titleFont font-bold text-lg">
+          <p>${item.quantity * item.price}</p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ItemCard;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\pages\Contact\Contact.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\pages\Contact\Contact.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\pages\Contact\Contact.js
+------------------------
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
+
+const Contact = () => {
+  const location = useLocation();
+  const [prevLocation, setPrevLocation] = useState("");
+  useEffect(() => {
+    setPrevLocation(location.state.data);
+  }, [location]);
+
+  const [clientName, setclientName] = useState("");
+  const [email, setEmail] = useState("");
+  const [messages, setMessages] = useState("");
+
+  // ========== Error Messages Start here ============
+  const [errClientName, setErrClientName] = useState("");
+  const [errEmail, setErrEmail] = useState("");
+  const [errMessages, setErrMessages] = useState("");
+  // ========== Error Messages End here ==============
+  const [successMsg, setSuccessMsg] = useState("");
+
+  const handleName = (e) => {
+    setclientName(e.target.value);
+    setErrClientName("");
+  };
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+    setErrEmail("");
+  };
+  const handleMessages = (e) => {
+    setMessages(e.target.value);
+    setErrMessages("");
+  };
+
+  // ================= Email Validation start here =============
+  const EmailValidation = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i);
+  };
+  // ================= Email Validation End here ===============
+
+  const handlePost = (e) => {
+    e.preventDefault();
+    if (!clientName) {
+      setErrClientName("Enter your Name");
+    }
+    if (!email) {
+      setErrEmail("Enter your Email");
+    } else {
+      if (!EmailValidation(email)) {
+        setErrEmail("Enter a Valid Email");
+      }
+    }
+    if (!messages) {
+      setErrMessages("Enter your Messages");
+    }
+    if (clientName && email && EmailValidation(email) && messages) {
+      setSuccessMsg(
+        `Thank you dear ${clientName}, Your messages has been received successfully. Futher details will sent to you by your email at ${email}.`
+      );
+    }
+  };
+
+  return (
+    <div className="max-w-container mx-auto px-4">
+      <Breadcrumbs title="Contact" prevLocation={prevLocation} />
+      {successMsg ? (
+        <p className="pb-20 w-96 font-medium text-green-500">{successMsg}</p>
+      ) : (
+        <form className="pb-20">
+          <h1 className="font-titleFont font-semibold text-3xl">
+            Fill up a Form
+          </h1>
+          <div className="w-[500px] h-auto py-6 flex flex-col gap-6">
+            <div>
+              <p className="text-base font-titleFont font-semibold px-2">
+                Name
+              </p>
+              <input
+                onChange={handleName}
+                value={clientName}
+                className="w-full py-1 border-b-2 px-2 text-base font-medium placeholder:font-normal placeholder:text-sm outline-none focus-within:border-primeColor"
+                type="text"
+                placeholder="Enter your name here"
+              />
+              {errClientName && (
+                <p className="text-red-500 text-sm font-titleFont font-semibold mt-1 px-2 flex items-center gap-1">
+                  <span className="text-sm italic font-bold">!</span>
+                  {errClientName}
+                </p>
+              )}
+            </div>
+            <div>
+              <p className="text-base font-titleFont font-semibold px-2">
+                Email
+              </p>
+              <input
+                onChange={handleEmail}
+                value={email}
+                className="w-full py-1 border-b-2 px-2 text-base font-medium placeholder:font-normal placeholder:text-sm outline-none focus-within:border-primeColor"
+                type="email"
+                placeholder="Enter your name here"
+              />
+              {errEmail && (
+                <p className="text-red-500 text-sm font-titleFont font-semibold mt-1 px-2 flex items-center gap-1">
+                  <span className="text-sm italic font-bold">!</span>
+                  {errEmail}
+                </p>
+              )}
+            </div>
+            <div>
+              <p className="text-base font-titleFont font-semibold px-2">
+                Messages
+              </p>
+              <textarea
+                onChange={handleMessages}
+                value={messages}
+                cols="30"
+                rows="3"
+                className="w-full py-1 border-b-2 px-2 text-base font-medium placeholder:font-normal placeholder:text-sm outline-none focus-within:border-primeColor resize-none"
+                type="text"
+                placeholder="Enter your name here"
+              ></textarea>
+              {errMessages && (
+                <p className="text-red-500 text-sm font-titleFont font-semibold mt-1 px-2 flex items-center gap-1">
+                  <span className="text-sm italic font-bold">!</span>
+                  {errMessages}
+                </p>
+              )}
+            </div>
+            <button
+              onClick={handlePost}
+              className="w-44 bg-primeColor text-gray-200 h-10 font-titleFont text-base tracking-wide font-semibold hover:bg-black hover:text-white duration-200"
+            >
+              Post
+            </button>
+          </div>
+        </form>
+      )}
+    </div>
+  );
+};
+
+export default Contact;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\pages\Home\Home.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\pages\Home\Home.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\pages\Home\Home.js
+------------------------
+import React, { useContext } from "react";
+import { ThemeContext } from "../../components/home/Header/Header"; // Correct import of ThemeContext
+import Banner from "../../components/Banner/Banner";
+import BannerBottom from "../../components/Banner/BannerBottom";
+import BestSellers from "../../components/home/BestSellers/BestSellers";
+import NewArrivals from "../../components/home/NewArrivals/NewArrivals";
+import Sale from "../../components/home/Sale/Sale";
+import SpecialOffers from "../../components/home/SpecialOffers/SpecialOffers";
+import YearProduct from "../../components/home/YearProduct/YearProduct";
+
+const Home = () => {
+  const { theme } = useContext(ThemeContext); // Using the theme from ThemeContext
+
+  return (
+    <div className={`w-full mx-auto min-h-screen 
+      ${theme === 'light' 
+        ? 'bg-white text-black' 
+        : 'bg-gray-900 text-white'}`}
+    >
+      <Banner />
+      <BannerBottom />
+      <div className={`max-w-container mx-auto px-4 
+        ${theme === 'light' 
+          ? 'bg-white text-black' 
+          : 'bg-gray-900 text-white'}`}
+      >
+        <Sale />
+        <NewArrivals />
+        <BestSellers />
+        <YearProduct />
+        <SpecialOffers />
+      </div>
+    </div>
+  );
+};
+
+export default Home;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\pages\Offer\Offer.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\pages\Offer\Offer.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\pages\Offer\Offer.js
+------------------------
+import React, { useState } from "react";
+import SpecialOffers from "../../components/home/SpecialOffers/SpecialOffers";
+import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
+
+const Offer = () => {
+  const [prevLocation] = useState("");
+
+  return (
+    <div className="max-w-container mx-auto">
+      <Breadcrumbs title="Offer" prevLocation={prevLocation} />
+      <div className="pb-10">
+        <SpecialOffers />
+      </div>
+    </div>
+  );
+};
+
+export default Offer;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\pages\payment\Payment.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\pages\payment\Payment.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\pages\payment\Payment.js
+------------------------
+import React from "react";
+import { Link } from "react-router-dom";
+import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
+
+const Payment = () => {
+  return (
+    <div className="max-w-container mx-auto px-4">
+      <Breadcrumbs title="Payment gateway" />
+      <div className="pb-10">
+        <p>Payment gateway only applicable for Production build.</p>
+        <Link to="/">
+          <button className="w-52 h-10 bg-primeColor text-white text-lg mt-4 hover:bg-black duration-300">
+            Explore More
+          </button>
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default Payment;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\pages\ProductDetails\ProductDetails.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\pages\ProductDetails\ProductDetails.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\pages\ProductDetails\ProductDetails.js
+------------------------
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
+import ProductInfo from "../../components/pageProps/productDetails/ProductInfo";
+import ProductsOnSale from "../../components/pageProps/productDetails/ProductsOnSale";
+
+const ProductDetails = () => {
+  const location = useLocation();
+  const [prevLocation, setPrevLocation] = useState("");
+  const [productInfo, setProductInfo] = useState([]);
+
+  useEffect(() => {
+    setProductInfo(location.state.item);
+    setPrevLocation(location.pathname);
+  }, [location, productInfo]);
+
+  return (
+    <div className="w-full mx-auto border-b-[1px] border-b-gray-300">
+      <div className="max-w-container mx-auto px-4">
+        <div className="xl:-mt-10 -mt-7">
+          <Breadcrumbs title="" prevLocation={prevLocation} />
+        </div>
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-4 h-full -mt-5 xl:-mt-8 pb-10 bg-gray-100 p-4">
+          <div className="h-full">
+            <ProductsOnSale />
+          </div>
+          <div className="h-full xl:col-span-2">
+            <img
+              className="w-full h-full object-cover"
+              src={productInfo.img}
+              alt={productInfo.img}
+            />
+          </div>
+          <div className="h-full w-full md:col-span-2 xl:col-span-3 xl:p-14 flex flex-col gap-6 justify-center">
+            <ProductInfo productInfo={productInfo} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductDetails;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\pages\Shop\Shop.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\pages\Shop\Shop.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\pages\Shop\Shop.js
+------------------------
+import React, { useState } from "react";
+import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
+import Pagination from "../../components/pageProps/shopPage/Pagination";
+import ProductBanner from "../../components/pageProps/shopPage/ProductBanner";
+import ShopSideNav from "../../components/pageProps/shopPage/ShopSideNav";
+
+const Shop = () => {
+  const [itemsPerPage, setItemsPerPage] = useState(12);
+  const itemsPerPageFromBanner = (itemsPerPage) => {
+    setItemsPerPage(itemsPerPage);
+  };
+
+  return (
+    <div className="max-w-container mx-auto px-4">
+      <Breadcrumbs title="Products" />
+      {/* ================= Products Start here =================== */}
+      <div className="w-full h-full flex pb-20 gap-10">
+        <div className="w-[20%] lgl:w-[25%] hidden mdl:inline-flex h-full">
+          <ShopSideNav />
+        </div>
+        <div className="w-full mdl:w-[80%] lgl:w-[75%] h-full flex flex-col gap-10">
+          <ProductBanner itemsPerPageFromBanner={itemsPerPageFromBanner} />
+          <Pagination itemsPerPage={itemsPerPage} />
+        </div>
+      </div>
+      {/* ================= Products End here ===================== */}
+    </div>
+  );
+};
+
+export default Shop;
+.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\redux\orebiSlice.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\redux\orebiSlice.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\redux\orebiSlice.js
+------------------------
+// orebiSlice.js
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
+  userInfo: [],
+  products: [],
+  wishlist: [],
+};
+
+export const orebiSlice = createSlice({
+  name: "orebi",
+  initialState,
+  reducers: {
+    // Cart actions
+    addToCart: (state, action) => {
+      const item = state.products.find(
+        (item) => item._id === action.payload._id
+      );
+      if (item) {
+        item.quantity += action.payload.quantity;
+      } else {
+        state.products.push(action.payload);
+      }
+    },
+    increaseQuantity: (state, action) => {
+      const item = state.products.find(
+        (item) => item._id === action.payload._id
+      );
+      if (item) {
+        item.quantity++;
+      }
+    },
+    decreaseQuantity: (state, action) => {
+      const item = state.products.find(
+        (item) => item._id === action.payload._id
+      );
+      if (item.quantity === 1) {
+        item.quantity = 1;
+      } else {
+        item.quantity--;
+      }
+    },
+    deleteItem: (state, action) => {
+      state.products = state.products.filter(
+        (item) => item._id !== action.payload
+      );
+    },
+    resetCart: (state) => {
+      state.products = [];
+    },
+
+    // Wishlist actions
+    addToWishlist: (state, action) => {
+      const item = state.wishlist.find(
+        (item) => item._id === action.payload._id
+      );
+      if (!item) {
+        state.wishlist.push(action.payload);
+      }
+    },
+    removeFromWishlist: (state, action) => {
+      state.wishlist = state.wishlist.filter(
+        (item) => item._id !== action.payload
+      );
+    },
+    resetWishlist: (state) => {
+      state.wishlist = [];
+    },
+  },
+});
+
+export const {
+  addToCart,
+  increaseQuantity,
+  decreaseQuantity,
+  deleteItem,
+  resetCart,
+  addToWishlist,
+  removeFromWishlist,
+  resetWishlist,
+} = orebiSlice.actions;
+
+export default orebiSlice.reducer;.
+
+C:\Users\dell\orebishopping-master>(
+echo ------------------------  
+ echo File: C:\Users\dell\orebishopping-master\src\redux\store.js  
+ echo ------------------------  
+ type "C:\Users\dell\orebishopping-master\src\redux\store.js"  
+ echo.. 
+) 
+------------------------
+File: C:\Users\dell\orebishopping-master\src\redux\store.js
+------------------------
+import { configureStore } from "@reduxjs/toolkit";
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import orebiReducer from "./orebiSlice";
+
+const persistConfig = {
+  key: "root",
+  version: 1,
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, orebiReducer);
+
+export const store = configureStore({
+  reducer: { orebiReducer: persistedReducer },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
+});
+
+export let persistor = persistStore(store);
+.
+------------------------
+File: tailwind.config.js
+------------------------
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  theme: {
+    extend: {
+      maxWidth: {
+        container: "1440px",
+      },
+      screens: {
+        xs: "320px",
+        sm: "375px",
+        sml: "500px",
+        md: "667px",
+        mdl: "768px",
+        lg: "960px",
+        lgl: "1024px",
+        xl: "1280px",
+      },
+      fontFamily: {
+        bodyFont: ["DM Sans", "sans-serif"],
+        titleFont: ["Poppins", "sans-serif"],
+      },
+      colors: {
+        primeColor: "#262626",
+        lightText: "#6D6D6D",
+      },
+      boxShadow: {
+        testShadow: "0px 0px 54px -13px rgba(0,0,0,0.7)",
+      },
+    },
+  },
+  plugins: [require("tailwind-scrollbar")],
+};

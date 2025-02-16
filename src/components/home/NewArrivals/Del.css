@@ -1,0 +1,224 @@
+/* Modern Modal Container with Gradient Border */
+.swal2-popup {
+    background: #ffffff !important;
+    border-radius: 24px !important;
+    padding: 2.5rem !important;
+    position: relative !important;
+    border: double 1px transparent !important;
+    background-image: 
+      linear-gradient(white, white),
+      linear-gradient(to right, #00c6ff, #0072ff) !important;
+    background-origin: border-box !important;
+    background-clip: padding-box, border-box !important;
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  /* Floating Background Effect */
+  .swal2-popup::before {
+    content: '' !important;
+    position: absolute !important;
+    top: -2px !important;
+    left: -2px !important;
+    right: -2px !important;
+    bottom: -2px !important;
+    background: linear-gradient(45deg, #00c6ff, #0072ff, #00c6ff) !important;
+    z-index: -1 !important;
+    border-radius: 25px !important;
+    filter: blur(10px) !important;
+    opacity: 0.3 !important;
+    transition: opacity 0.3s ease !important;
+  }
+  
+  /* Modern Success State */
+  .swal2-icon.swal2-success {
+    border-color: #00c6ff !important;
+  }
+  
+  .swal2-icon.swal2-success [class^='swal2-success-line'] {
+    background-color: #00c6ff !important;
+  }
+  
+  .swal2-icon.swal2-success .swal2-success-ring {
+    border-color: rgba(0, 198, 255, 0.3) !important;
+  }
+  
+  /* Modern Typography */
+  .swal2-title {
+    color: #1a1a1a !important;
+    font-size: 1.8rem !important;
+    font-weight: 700 !important;
+    background: linear-gradient(45deg, #00c6ff, #0072ff) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  .swal2-html-container {
+    color: #4a5568 !important;
+    font-size: 1.1rem !important;
+    line-height: 1.6 !important;
+    margin: 1rem 0 1.5rem !important;
+  }
+  
+  /* Modern Buttons */
+  .swal2-actions {
+    gap: 1rem !important;
+  }
+  
+  .swal2-confirm {
+    background: linear-gradient(45deg, #00c6ff, #0072ff) !important;
+    border: none !important;
+    padding: 1rem 2rem !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: white !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 15px rgba(0, 198, 255, 0.3) !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  .swal2-confirm:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(0, 198, 255, 0.4) !important;
+  }
+  
+  .swal2-cancel {
+    background: #f8fafc !important;
+    border: 2px solid #e2e8f0 !important;
+    padding: 1rem 2rem !important;
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: #64748b !important;
+    border-radius: 12px !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  .swal2-cancel:hover {
+    background: #f1f5f9 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+  }
+  
+  /* Delete Button Style */
+  .delete-btn {
+    background: linear-gradient(45deg, #ff6b6b, #ff4757) !important;
+    color: white !important;
+    padding: 0.6rem 1.2rem !important;
+    font-size: 0.9rem !important;
+    font-weight: 500 !important;
+    border-radius: 10px !important;
+    border: none !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3) !important;
+    transition: all 0.3s ease !important;
+    position: relative !important;
+    overflow: hidden !important;
+  }
+  
+  .delete-btn::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: -100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    ) !important;
+    transition: 0.5s !important;
+  }
+  
+  .delete-btn:hover::before {
+    left: 100% !important;
+  }
+  
+  .delete-btn:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4) !important;
+  }
+  
+  /* Success Animation */
+  @keyframes successPop {
+    0% {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    70% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+  .success-animation {
+    animation: successPop 0.5s ease-out forwards !important;
+  }
+  
+  /* Loading State */
+  .swal2-loader {
+    border-color: #00c6ff transparent #00c6ff transparent !important;
+  }
+  
+  /* Custom Success Icon */
+  .custom-success-icon {
+    width: 80px !important;
+    height: 80px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(45deg, #00c6ff, #0072ff) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto 1.5rem !important;
+    animation: successPop 0.5s ease-out !important;
+  }
+  
+  .custom-success-icon svg {
+    width: 40px !important;
+    height: 40px !important;
+    color: white !important;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 480px) {
+    .swal2-popup {
+      padding: 2rem !important;
+      margin: 1rem !important;
+    }
+    
+    .swal2-title {
+      font-size: 1.5rem !important;
+    }
+    
+    .swal2-html-container {
+      font-size: 1rem !important;
+    }
+    
+    .swal2-confirm,
+    .swal2-cancel {
+      padding: 0.8rem 1.5rem !important;
+      font-size: 1rem !important;
+    }
+  }
+  
+  /* Toast Notification Style */
+  .swal2-toast {
+    background: linear-gradient(45deg, #00c6ff, #0072ff) !important;
+    color: white !important;
+    border-radius: 12px !important;
+    padding: 1rem 1.5rem !important;
+  }
+  
+  .swal2-toast .swal2-title {
+    color: white !important;
+    font-size: 1rem !important;
+    -webkit-text-fill-color: white !important;
+  }
